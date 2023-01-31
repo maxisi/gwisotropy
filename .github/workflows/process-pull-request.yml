@@ -1,5 +1,7 @@
 name: process pull request
 
+permissions: write-all
+
 on:
   workflow_run:
     workflows: [build pull request]

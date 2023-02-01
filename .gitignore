@@ -14,3 +14,4 @@ src/tex/figures/*
 __pycache__
 *.synctex.gz
 *.swp
+.ipynb_checkpoints

@@ -25,14 +25,15 @@ dag:
 
 # Externally-hosted datasets, e.g. on Zenodo
 datasets:
-  # 10.5281/zenodo.6468327:
-  #   contents:
-  #     TOI640b.json: src/data/TOI640b.json
+  10.5281/zenodo.5546676:
+    destination: src/data
+    contents:
+      endo3_bbhpop-LIGO-T2100113-v12.hdf5:
 
 # Custom file dependencies
 dependencies:
-  # src/scripts/my_script.py:
-  #   - src/data/dataset_for_my_script.dat
+  src/scripts/corner_plot.py:
+    - src/data/gwisotropy_result.nc
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
 

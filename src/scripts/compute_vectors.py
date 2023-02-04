@@ -1,11 +1,14 @@
 import paths
 from glob import glob
 import os
-import tqdm
+from tqdm import tqdm
+from parse import parse
 import numpy as np
 import utils
 import utils.pops 
+import utils.transf
 import pickle as pkl
+import h5py
 
 RNG = np.random.default_rng(12345)
 
@@ -13,7 +16,7 @@ RNG = np.random.default_rng(12345)
 # LOAD POSTERIORS
 ###############################################################################
 
-pe_path = paths.pe / 'IGWN-{version}-GW{eid}_PEDataRelease_mixed_cosmo.h5'
+pe_path = str(paths.pe / 'IGWN-{version}-GW{eid}_PEDataRelease_mixed_cosmo.h5')
 pe_paths = glob(pe_path.format(version='*', eid='*'))
 
 samples_dict = {}
@@ -49,7 +52,7 @@ for path in tqdm(sorted(pe_paths)):
 
 samples_dict_all = samples_dict.copy()
 samples_dict = {e: s for e,s in samples_dict_all.items() if
-                np.quantile(s['mass_2_source'], 0.01) > utils.M_MIN}
+                np.quantile(s['mass_2_source'], 0.01) > utils.MMIN}
 
 
 ###############################################################################
@@ -60,7 +63,7 @@ samples_dict = {e: s for e,s in samples_dict_all.items() if
 # in $(1+z)m_1$ (in 2D), we will have to reweight to the MD star formation rate
 # and the desired mass population.
 
-Nsamp = utils.N_SAMP
+Nsamp = utils.NSAMP
 
 k1s = ['mass_1_source', 'mass_ratio', 'redshift']
 k2s = k1s + ['ra', 'dec', 'iota', 'psi']

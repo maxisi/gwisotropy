@@ -1,12 +1,12 @@
 rule gwosc:
     output:
-        directory("src/data/pe_o3_gwosc")
+        directory("src/data/pe_gwosc_o3")
     script:
         "src/scripts/download_gwosc_pe.py"
 
 rule vectors:
     input:
-        "src/data/pe_o3_gwosc"
+        "src/data/pe_gwosc_o3"
     output:
         "src/data/vectors_bbh.pkl"
     cache:

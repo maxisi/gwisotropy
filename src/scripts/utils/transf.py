@@ -1,7 +1,8 @@
 import numpy as np
-import lal
 from tqdm import tqdm
 import pandas as pd
+
+MTSUN_SI = 4.925491025543576248120047206269e-06
 
 def fix_psi(samples, duplicate=False, rng=None):
     """Restore polarization angle to full range [0, 2*pi].
@@ -127,7 +128,7 @@ def get_jhat_components(m1, m2, spin1_x, spin1_y, spin1_z, spin2_x, spin2_y, spi
     # get v parameter at reference point
     # see https://lscsoft.docs.ligo.org/lalsuite/lalsimulation/_l_a_l_sim_inspiral_8c_source.html#l05923
     m = m1 + m2
-    v0 = np.cbrt( m * lal.MTSUN_SI * np.pi * f_ref );
+    v0 = np.cbrt( m * MTSUN_SI * np.pi * f_ref );
     
     eta = m1*m2/m/m;
 

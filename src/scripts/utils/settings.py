@@ -12,3 +12,6 @@ FARMAX_S = FARMAX_YR * one_per_year
 
 # number of samples to draw per event
 NSAMP = 2048
+
+# standard deviation of hyperprior
+SIGMA_RAW = 0.4

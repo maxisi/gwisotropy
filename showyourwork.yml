@@ -34,6 +34,8 @@ datasets:
 dependencies:
   src/scripts/corner_plot.py:
     - src/data/gwisotropy_result.nc
+  src/scripts/density_3d_plot.py:
+    - src/data/gwisotropy_result.nc
   # src/tex/ms.tex:
   #   - src/tex/stylesheet.tex
 

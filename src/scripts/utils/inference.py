@@ -5,10 +5,11 @@ import aesara.tensor as at
 import aesara.tensor.slinalg as atl
 import arviz as az
 import scipy.stats as ss
+from . import settings
 
 def make_model(location_posterior_stack, orientation_posterior_stack,
                location_selection_stack, orientation_selection_stack,
-               pdraw, Ndraw, sigma_raw=0.4):
+               pdraw, Ndraw, sigma_raw=settings.SIGMA_RAW):
     """Construct isotropy probability model in PyMC.
 
     The likelihood function takes the form:
@@ -121,6 +122,37 @@ def make_model(location_posterior_stack, orientation_posterior_stack,
         pm.Deterministic("vN", vN)
         pm.Deterministic("Neff_sel", Neff_sel)
     return model
+
+def draw_prior(sigma=1/np.sqrt(5), ndraw=100000, rng=None, seed=None):
+    """Draw `ndraw` Cartesian vectors from the prior.
+
+    Arguments
+    ---------
+    sigma : float
+        prior standard deviation, defaults to 1/sqrt(5).
+    ndraw : int
+        number of vectors to draw, def. 100000
+    rng : np.random.Generator
+        random number generator, def. `np.random.default_rng`
+    seed : int
+        seed for `np.random.default_rng` if `rng` is not provided, def. None
+
+    Returns
+    -------
+    v : np.array
+        array of shape `(ndraw, 3)` containing the Cartesian vectors drawn from
+        the prior.
+    """
+
+    if rng is None:
+        rng = np.random.default_rngs(seed)
+
+    # we start with a Gaussian prior on the components of vL_raw
+    v_raw = np.random.normal(0, sigma, size=(ndraw, 3))
+
+    # then, we can compute be and its norm from the definition above
+    v = (v_raw.T / np.sqrt(1 + np.einsum("ij,ij->i", v_raw, v_raw))).T
+    return v
 
 def cl_origin(vecs):
     kde = ss.gaussian_kde(vecs.T)

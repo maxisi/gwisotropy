@@ -12,7 +12,7 @@ src = root / "src"
 
 # Absolute path to the `src/data` folder (contains datasets)
 data = src / "data"
-pe = data / "o3_pe_gwosc"
+pe = data / "pe_gwosc_o3"
 vectors_bbh = data / "vectors_bbh.pkl"
 selection = data / "endo3_bbhpop-LIGO-T2100113-v12.hdf5"
 vectors_sel = data / "vectors_sel.hdf5"

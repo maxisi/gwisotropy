@@ -1,7 +1,5 @@
 import numpy as np
 from astropy.cosmology import default_cosmology, z_at_value, Planck15
-import lal
-import lalsimulation as lalsim
 from . import settings
 
 RNG = np.random.default_rng()
@@ -183,60 +181,3 @@ def next_power_of_two(x):
         value = value  <<  1
     return value
 
-def draw_snr(m1, q, dL_mpc, iota, psi, ra, dec, phi, s1x, s1y, s1z, s2x, s2y, s2z, 
-             fstart=9., flow=10., fhigh=1024., fref=20., rng=RNG, asd_paths=None):
-    """Function to draw waveform parameters based on fixed distributions
-    and compute corresponding SNR at all detectors.
-    
-    Returns
-    -------
-    snrs: list
-        list of ifo optimal SNRs
-    """
-    # compute secondary mass from m1 and q
-    m2 = q*m1
-    
-    # draw random phase angle and hour angle
-    # (we do this here rather than in the block below because we don't care 
-    # about recording these parameters)
-    gmst = 2*np.pi*rng.normal()
-    
-    # get expected waveform duration and corresponding delta_f
-    T = next_power_of_two(lalsim.SimInspiralChirpTimeBound(fstart, m1*lal.MSUN_SI, m2*lal.MSUN_SI, 0.0, 0.0))
-    dF = 1. / T
-
-    # call waveform generator with long_asc_node = 0, which should be correct given how
-    # XLALSimInspiralChooseFDWaveformFromCache calls XLALSimInspiralChooseFDWaveform in
-    # https://docs.ligo.org/lscsoft/lalsuite/lalsimulation/group___l_a_l_sim_inspiral_waveform_cache__h.html#ga7cbe639459d24eb501f026a624e64ed3
-    # These are the functions called by LALInference in 
-    # https://git.ligo.org/lscsoft/lalsuite/-/blob/master/lalinference/lib/LALInferenceTemplate.c#L992
-    # (presumably, bilby/RIFT do the same...)
-    try:
-        hp, hc = lalsim.SimInspiralChooseFDWaveform(m1*lal.MSUN_SI, m2*lal.MSUN_SI,
-                                                    s1x, s1y, s1z,
-                                                    s2x, s2y, s2z,
-                                                    float(dL_mpc*1e6*lal.PC_SI), iota,
-                                                    phi, 0.0, 0.0, 0.0, dF,
-                                                    fstart, fhigh, fref,
-                                                    lal.CreateDict(), lalsim.IMRPhenomPv3)
-    except RuntimeError:
-        print(f"Parameters failed: {m1}, {m2}, {s1x}, {s1y}, {s1z}, {s2x}, {s2y}, {s2z}, {dL_mpc}, {iota}, {phi}")
-        return [0]*len(asd_paths)
-
-    # compute IFO optimal SNRs for the drawn signal
-    SNRs = []
-    for ifo, asd_path in asd_paths.items():
-        d = lal.cached_detector_by_prefix[ifo]
-        Fp, Fc = lal.ComputeDetAMResponse(d.response, ra, dec, psi, gmst)
-        h = lal.CreateCOMPLEX16FrequencySeries("h in detector", lal.LIGOTimeGPS(), 
-                                               fstart, dF, hp.sampleUnits, hp.data.length)
-        h.data.data = Fp * hp.data.data + Fc*hc.data.data
-
-        # create PSD from ASD file 
-        # https://lscsoft.docs.ligo.org/lalsuite/lalsimulation/group___l_a_l_sim_noise_p_s_d__c.html#ga67d250556e4e8647c50d379364eb7911
-        psd = lal.CreateREAL8FrequencySeries("detector PSD", lal.LIGOTimeGPS(),
-                                             fstart, dF, lal.DimensionlessUnit,
-                                             hp.data.length)
-        lalsim.SimNoisePSDFromFile(psd, fstart, asd_path)
-        SNRs.append(lalsim.MeasureSNRFD(h, psd, flow, fhigh))
-    return SNRs

@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
 import utils
+import utils.plots
 import pandas as pd
 import arviz as az
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes

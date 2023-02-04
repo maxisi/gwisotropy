@@ -28,7 +28,6 @@ jhats = x.reshape(np.prod(x.shape[:2]), 3)
 # draw vectors from prior
 
 vprior = draw_prior(ndraw=len(jhats), rng=RNG)
-vn = np.linalg.norm(vprior, axis=1)
 
 ###############################################################################
 # PLOT
@@ -40,7 +39,8 @@ with sns.axes_style("ticks"):
     fig = plt.figure(figsize=utils.plots.figsize_column)
     sns.kdeplot(np.linalg.norm(jhats, axis=1), label="$J$ posterior", lw=3)
     sns.kdeplot(np.linalg.norm(nhats, axis=1), label="$N$ posterior", lw=3)
-    sns.kdeplot(vn, label="prior", color='0.8', lw=3, ls='--', zorder=-100);
+    sns.kdeplot(np.linalg.norm(vprior, axis=1), label="prior", color='0.8',
+                lw=3, ls='--', zorder=-100);
     plt.xlabel(r"$|\vec{v}_{J/N}|$");
     plt.legend();
 

@@ -45,7 +45,7 @@ dependencies:
 ms_name: gwisotropy
 
 # Optimize DAG by removing unnecessary jobs upstream of cache hits?
-optimize_caching: false
+optimize_caching: true
 
 # Overleaf sync settings
 overleaf:

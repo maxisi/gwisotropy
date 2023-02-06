@@ -34,3 +34,19 @@ rule fit:
         True
     script:
         "src/scripts/hierarchical_fit.py"
+
+rule table:
+    input:
+        "src/data/vectors_bbh.pkl"
+    output:
+        "src/tex/output/events.tex"
+    script:
+        "src/scripts/make_table.py"
+
+rule macros:
+    input:
+        "src/data/vectors_bbh.pkl"
+    output:
+        "src/tex/output/macros.tex"
+    script:
+        "src/scripts/make_macros.py"

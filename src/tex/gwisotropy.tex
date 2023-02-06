@@ -6,6 +6,8 @@
 \usepackage[nolist,nohyperlinks]{acronym}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{xspace}
 
 \newcommand{\ts}{\textsuperscript}
 \newcommand{\beq}{\begin{equation}}
@@ -79,6 +81,10 @@ the population of LIGO-Virgo black holes to be fully consistent with both homoge
 \acro{BH}{black hole}
 \acro{BBH}{binary black hole}
 \end{acronym}
+
+% initialize commands
+\newcommand{\Nevents}{0}
+\variable{output/macros.tex}
 
 \section{Introduction}
 \label{sec:intro}
@@ -192,58 +198,8 @@ Specifically, we make use of results obtained with the \textsc{IMRPhenomXPHM} wa
 The single-event inference was carried out by the LIGO-Virgo collaborations using the \textsc{Bilby} parameter estimation pipeline \cite{Romero-Shaw:2020owr,Ashton:2018jfp}, as detailed in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb}.
 We reweight those samples following the astrophysical population described above (see, e.g., \cite{Miller:2020zox,Essick:2022ojx} for methodology) and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
 
-\begin{table}
-\caption{Events considered.}
-\label{tab:events}
-\begin{ruledtabular}
-\begin{tabular}{ccc}
-GW190408\_181802 &
-GW190412\_053044 &
-GW190413\_052954 \\
-GW190413\_134308 &
-GW190421\_213856 &
-GW190503\_185404 \\
-GW190512\_180714 &
-GW190513\_205428 &
-GW190517\_055101 \\
-GW190519\_153544 &
-GW190521\_030229 &
-GW190521\_074359 \\
-GW190527\_092055 &
-GW190602\_175927 &
-GW190620\_030421 \\
-GW190630\_185205 &
-GW190701\_203306 &
-GW190706\_222641 \\
-GW190707\_093326 &
-GW190708\_232457 &
-GW190719\_215514 \\
-GW190720\_000836 &
-GW190727\_060333 &
-GW190728\_064510 \\
-GW190731\_140936 &
-GW190803\_022701 &
-GW190805\_211137 \\
-GW190828\_063405 &
-GW190828\_065509 &
-GW190910\_112807 \\
-GW190915\_235702 &
-GW190925\_232845 &
-GW190929\_012149 \\
-GW190930\_133541 &
-GW191103\_012549 &
-GW191105\_143521 \\
-GW191109\_010717 &
-GW191127\_050227 &
-GW191129\_134029 \\
-GW191204\_171526 &
-GW191215\_223052 &
-GW191216\_213338 \\
-GW191222\_033537 &
-GW191230\_180458 & \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
+% insert programatically-generated table of analyzed events
+\variable{output/events.tex}
 
 \subsection{Selection biases}
 
@@ -262,7 +218,7 @@ Isotropy is recovered for $\dip{N} = \dip{J} = 0$, which is well supported by th
 
 Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines using synthetic signals.
 As in \cite{Essick:2022slj}, we take advantage of the dataset in \cite{o3-selection} for this purpose.
-Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are 67 \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
+Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
 Since we are attempting to model the \emph{intrinsic} distribution of all \ac{BBH} sources, not merely those that were detected, we must account for the difference in LIGO-Virgo's sensitivity to various sources.
 This is true for both intrinsic parameters, like \ac{BH} masses and spin magnitudes, as well as the location and orientation parameters in which we are interested for this work (namely, $\hat{N}$ and $\hat{J}$).
@@ -409,6 +365,7 @@ A two-dimensional slice of the prior on the components of $\dip{N/J}$ for this c
 With this choice, the origin is not disfavored by the three-dimensional prior probability density.
 }
 \label{fig:prior}
+\script{prior_plot.py}
 \end{figure}
 
 \bibliography{bib}

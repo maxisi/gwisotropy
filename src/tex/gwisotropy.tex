@@ -35,6 +35,15 @@
 
 % initialize commands
 \newcommand{\Nevents}{0}
+\newcommand{\varimpNx}{}
+\newcommand{\varimpNy}{}
+\newcommand{\varimpNz}{}
+\newcommand{\varimpJx}{}
+\newcommand{\varimpJy}{}
+\newcommand{\varimpJz}{}
+\newcommand{\clJ}{}
+\newcommand{\clN}{}
+\newcommand{\clPrior}{}
 \variable{output/macros.tex}
 
 %Title of paper
@@ -65,7 +74,7 @@
 \date{\today}
 
 \begin{abstract}
-We constrain the degree of alignment of the total angular momenta of LIGO-Virgo
+We demonstrate how to constrain the degree of alignment of the total angular momenta of LIGO-Virgo
 binary black holes, looking for a special direction in absolute space that
 would break isotropy. We simultaneously allow for inhomogeneities in the
 distribution of black holes over the sky. Making use of dipolar models for
@@ -100,7 +109,7 @@ The homogeneity \cite{Stiskalek:2020wbj,Payne:2020pmc,Cavaglia:2020fnc,Essick:20
 In this work, we reconsider the problem from a new point of view by quantifying the degree of alignment of the \ac{BBH} orbits; in other words, we ask the question: could the total angular momentum vectors of LIGO-Virgo \acp{BBH} be preferentially aligned with a special direction in space?
 We consider this possibility as we simultaneously search for inhomogeneities in the spatial distribution of sources, thus constraining the existence of special directions controlling both the alignment and location of \acp{BBH}.
 
-Unlike previous studies, we look for a breaking of a isotropy through the existence of a special direction in space with reference to some absolute frame, like the cosmic microwave background or the fixed stars (Fig.~\ref{fig:vectors}, second panel), and not with respect to Earth.
+Unlike previous studies, we look for a breaking of isotropy in the angular momenta through the existence of a special direction in space with reference to some absolute frame, like the cosmic microwave background or the fixed stars (Fig.~\ref{fig:vectors}, second panel), and not with respect to Earth.
 The discovery of such a special direction could reveal the presence of a vector field breaking Lorentz symmetry \mi{I'm spitballing here} \vv{To spitball more, you could mention specific theories like Einstein-Aether?}.
 This differs from previous works like Ref.~\cite{Vitale:2022pmu}, which checked for anomalies in the alignment of sources with respect to Earth, as reflected in the distribution of \ac{BBH} inclinations (Fig.~\ref{fig:vectors}, third panel).
 Such studies are not sensitive to the kind of overall alignment in absolute space that we look for here.
@@ -151,7 +160,8 @@ for the right ascension $\alpha$ and declination $\delta$; meanwhile, the orient
 \end{equation}
 for the orbital angular momentum $\vec{L}$ and individual (dimensionful) \ac{BH} spins $\vec{S}_{1/2}$.
 The Cartesian components of $\hat{J}$ can be computed in the above frame as a function of $\alpha$, $\delta$, and the polarization angle $\psi$ \cite{Isi:2022mbx}, as well as the component masses $m_{1/2}$, the dimensionless spin vectors $\vec{\chi}_{1/2}$ and the orbital phase $\phi_{\rm ref}$ at some reference frequency $f_{\rm ref}$; we outline this calculation in Appendix \ref{app:j}.
-We prefer to work in terms of $\hat{J}$ rather than $\hat{L}$ because the former is conserved over the coalescence to a high degree, even for precessing systems \cite{}.
+We prefer to work with $\hat{J}$ rather than $\hat{L}$ because the former is conserved over the coalescence to a high degree, even for precessing systems \cite{}.
+\mi{VIJAY, what's the best reference for this?}
 
 Our goal is to quantify the degree of isotropy in $\hat{N}$ and $\hat{J}$.
 To this end, we model each of those vectors as drawn from an isotropic distribution with a dipolar correction of variable magnitude.
@@ -164,36 +174,37 @@ Concretely, we implement the following population-level likelihood for each even
 p(\hat{N}_i,\hat{J}_i \mid \dip{N}, \dip{J}) \sim \frac{1}{16 \pi^2}  \hspace{-3pt}\left(1 + \dip{N} \cdot \hat{N}_i\right) \hspace{-3pt} \left(1 + \dip{J} \cdot \hat{J}_i\right) \hspace{-2pt} ,
 \end{equation}
 for some special-direction vectors $\dip{N/J}$, with $0 \leq \left| \dip{N/J} \right| < 1$, to be inferred as hyperparameters from the collection of detections.
-By simultaneously fitting for $\dip{N}$ and $\dip{J}$, this model allows for correlations between the location and orientation anisotropies.
+%By simultaneously fitting for $\dip{N}$ and $\dip{J}$, this model allows for correlations between the location and orientation anisotropies.
 The fully isotropic case is recovered for $\dip{N} = \dip{J} = 0$.
 On the other hand, setting $\dip{J} = 0$ alone allows for a nonhomogenous distribution of sources in the sky while assuming isotropic source orientations; this reduces to the ``dipole'' model in \cite{Essick:2022slj}.
 Modeling the likelihood as in Eq.~\eqref{eq:lnlike}, with $\left| \dip{N/J} \right| < 1$, ensures that the likelihood itself remains positive everywhere.
 
 It is convenient to remove the constraint $0 \leq \left| \dip{N/J} \right| <
-1$ by re-parameterizing \vv{I'm tempted to say: ``decompactify''} the population in Eq.~\eqref{eq:lnlike}, through two
+1$ by re-parameterizing the population in Eq.~\eqref{eq:lnlike}, through two
 corresponding, auxiliary vectors $\dipraw{N/J}$ defined such that
 \begin{equation}
 \dip{N/J} = \frac{\dipraw{N/J} }{\sqrt{1 + |\dipraw{N/J}|^2}} .
 \end{equation}
 In this way, we ensure $0 \leq \left| \dip{N/J} \right| \leq 1$ for $-\infty <
-\dipraw{N/J} < \infty$; $\dipraw{N/J}$ are unconstrained.  This transformation
+\dipraw{N/J} < \infty$; $\dipraw{N/J}$ are unconstrained.  This ``decompactifying'' transformation
 is more effective for sampling purposes than enforcing a sharp constraint on the
-magnitudes of $\dip{N/J}$.  For small $\left| \dip{N/J} \right|$, $\dip{N/J}
-\simeq \dipraw{N/J}$ to second order in $\left| \dip{N/J} \right|$.  We choose a
-prior that is a three-dimensional Gaussian distribution on the components of
+magnitudes of $\dip{N/J}$. For small $\left| \dip{N/J} \right|$, $\dip{N/J}
+\simeq \dipraw{N/J}$ to second order in $\left| \dip{N/J} \right|$. As a prior, we choose a three-dimensional Gaussian distribution on the components of
 each $\dipraw{N}$ and $\dipraw{J}$, with zero mean and standard deviation
 $\sigma = 0.4$. This choice of prior is designed be fairly uninformative about
-$\dip{N/J}$ while still peaking at $\dip{N/J} = \vec{0}$; see Appendix
-\ref{app:prior}.
+$\dip{N/J}$ (i.e., lacking a strong gradient) while still peaking at $\dip{N/J} = \vec{0}$; see Appendix
+\ref{app:prior} for a description of this feature.
 
 \subsection{Reweighting to an astrophysical population}
 
 Besides the location and orientation modeling described above, we need to ensure that our assumptions about the parameters of each individual \ac{BBH}, like masses and redshift, are astrophysically sensible.
-We assume a redshift distribution that follows the Madau-Dickinson star formation rate \cite{Madau:2014bja} in the comoving frame.
+To that end, we assume a redshift distribution that follows the Madau-Dickinson star formation rate \cite{Madau:2014bja} in the comoving frame.
 For the masses, we assume a prior distribution inversely proportional to the heaviest component mass ($\propto 1/m_1$) and uniform in the mass ratio ($\propto q = m_2/m_1$), and restrict our sample to \acp{BH} with (posterior-median) masses in the range $5 \, M_\odot < m_2 \leq m_1 < 150 \, M_\odot$; within that range, this choice is a simple approximation to the measurement in \cite{LIGOScientific:2021psn}.
-A future analysis may fit the astrophysical distribution of these parameters jointly with the orientation and location of the binaries. \vv{Say something about ignoring the spin distribution?}
+We assume component spins are isotropically oriented with respect to the orbital angular momentum, with a uniform distribution over their dimensionless magnitude.%
+\footnote{This implies that our modeling of $\hat{J}$ following Eq.~\eqref{eq:lnlike} can be reinterpreted as a nontrivial modeling of $\vec{L}$ through Eq.~\eqref{eq:j}.}
+A future analysis may fit the astrophysical distribution of these parameters jointly with the orientation and location of the binaries. 
 
-We depart from posterior samples for individual events reported by LIGO-Virgo in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb} and publicly released in \cite{zenodo:GWTC-2.1,zenodo:GWTC-3} through the Gravitational Wave Open Science Center \cite{GWOSC:GWTC-2.1,GWOSC:GWTC-3,LIGOScientific:2019lzm}.
+Our analysis starts from posterior samples for individual events reported by LIGO-Virgo in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb} and publicly released in \cite{zenodo:GWTC-2.1,zenodo:GWTC-3} through the Gravitational Wave Open Science Center \cite{GWOSC:GWTC-2.1,GWOSC:GWTC-3,LIGOScientific:2019lzm}.
 Specifically, we make use of results obtained with the \textsc{IMRPhenomXPHM} waveform \cite{Pratten:2020ceb,Pratten:2020fqn,Garcia-Quiros:2020qpx,Garcia-Quiros:2020qlt} that have been already reweighted to a distance prior uniform in comoving volume.
 The single-event inference was carried out by the LIGO-Virgo collaborations using the \textsc{Bilby} parameter estimation pipeline \cite{Romero-Shaw:2020owr,Ashton:2018jfp}, as detailed in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb}.
 We reweight those samples following the astrophysical population described above (see, e.g., \cite{Miller:2020zox,Essick:2022ojx} for methodology) and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
@@ -201,37 +212,37 @@ We reweight those samples following the astrophysical population described above
 % insert programatically-generated table of analyzed events
 \variable{output/events.tex}
 
-\subsection{Selection biases}
-
 \begin{figure*}[p]
 \includegraphics[width=\textwidth]{figures/jn_corner.pdf}
-\caption{\emph{Isotropy measurement.} Result of the simultaneous measurement of location and orientation isotropy through the model in Eq.~\eqref{eq:lnlike}, as represented by the posterior distribution on the dipole vectors $\dip{N/J}$ (corner plot), and the corresponding distributions over the sky (sky-map insets).
-The six-dimensional posterior distribution is represented through credible levels over two-dimensional slices (blue countours, spaced at intervals corresponding to 10\% of the probability mass with the outer contour enclosing 90\% of the probability), and one-dimensional marginals (diagonal).
+\caption{\emph{Isotropy measurement.} Result of the simultaneous measurement of location and orientation isotropy through the model in Eq.~\eqref{eq:lnlike}, as represented by the posterior distribution on the dipole vectors $\dip{N/J}$ (corner plot), and the corresponding projections over the sky (Mollweide insets).
+The six-dimensional posterior distribution is represented through credible levels over two-dimensional slices (blue countours, spaced at intervals corresponding to 10\% increments in probability mass, with the outer contour enclosing 90\% of the probability), and one-dimensional marginals (diagonal).
 The upper-left and lower-right sub-corners encode constraints on the magnitude and direction of each $\dip{N}$ and $\dip{J}$ respectively (highlighted with vertical and horizontal lines in the margin), while the other panels encode potential correlations between the location and orientation inisotropies.
-The measurements for $\dip{N/J}$ can be represented as a distribution over the sky as in the top-right insets, where each dot marks the direction in celestial coordinates of one sample drawn from the $\dip{N}$ (top) or $\dip{J}$ (bottom) distributions, with color encoding the magnitude of the vector.
+The measurements for $\dip{N/J}$ can be projected into distribution over the sky as in the top-right insets, where each dot marks the direction in celestial coordinates of one sample drawn from the $\dip{N}$ (top) or $\dip{J}$ (bottom) distributions, with color encoding the magnitude of the vector; inhomogeneities in these sky-maps do not constitute evidence for anisotropies.
 Isotropy is recovered for $\dip{N} = \dip{J} = 0$, which is well supported by this posterior (gray dotted lines).
-\vv{Also comment on the apparent anisotropy of the Mollweide plots here?}
 }
 \label{fig:jn_corner}
 \script{corner_plot.py}
 \end{figure*}
 
-Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines using synthetic signals.
-As in \cite{Essick:2022slj}, we take advantage of the dataset in \cite{o3-selection} for this purpose.
-Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
+\subsection{Selection biases}
 
 Since we are attempting to model the \emph{intrinsic} distribution of all \ac{BBH} sources, not merely those that were detected, we must account for the difference in LIGO-Virgo's sensitivity to various sources.
 This is true for both intrinsic parameters, like \ac{BH} masses and spin magnitudes, as well as the location and orientation parameters in which we are interested for this work (namely, $\hat{N}$ and $\hat{J}$).
 With knowledge of the instruments' sensitivity over parameter space, we deconvolve such selection function to obtain a measurement of the intrinsic distribution of parameters out of the distribution of detected sources \cite{Loredo:2004nn,Mandel:2018mve}.
+
+Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines using synthetic signals.
+As in \cite{Essick:2022slj}, we take advantage of the dataset in \cite{o3-selection} for this purpose.
+Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
 
 \section{Results}
 \label{sec:results}
 
 We showcase the full result of our analysis in Fig.~\ref{fig:jn_corner}, which represents the simultaneous measurement of location and orientation anisotropies through the six-dimensional posterior on the components of $\dip{N}$ and $\dip{J}$.
-The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the 17\% and 22\% quantiles respectively; \vv{I don't know what is normal here. How about also listing those numbers for the prior?} %
+The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the \clN and \clJ quantiles respectively;%
 \footnote{These three-dimensional quantiles correspond to the fraction of posterior samples with higher probability density than the origin.}
-this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
+% \vv{I don't know what is normal here. How about also listing those numbers for the prior?}
+ this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
 
 \begin{figure*}
@@ -247,9 +258,14 @@ The posteriors are tighter with respect to the prior, as is also reflected in Fi
 \script{density_3d_plot.py}
 \end{figure*}
 
-To the extent that there is support for nonzero dipolar contributions to the location or orientation densities (i.e., $|\dip{J/N}| > 0$), their possible directions in the sky is represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
-In Fig.~\ref{fig:density_3d}, we present an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
-Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are tighter around the origin than the prior.
+To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
+Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
+\footnote{For example, it is easy to see that this would be the case if the posterior samples for $\dip{J/N}$ where drawn from a zero-mean multivariate Gaussian, irrespective of the variance.}
+
+In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
+Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.
+The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{J}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
 
 
 \begin{figure}
@@ -262,18 +278,19 @@ These are shifted rightward with respect to the implied prior (gray), which itse
 \end{figure}
 
 We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
-However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.
+However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
+\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small).}
 Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
-With that in mind, the influence of the data can be seen in the rightward \wf{leftward?} shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
+With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-We have constrained the potential alignment of the total angular momenta of \acp{BBH} detected by LIGO and Virgo, using 44 detections from their third observing run and properly accounting for selection effects.
-We simultaneously constrained (potentially correlated) inhomogeneities in the distribution of sources over the sky.
+We have demonstrated a measurement constraining the potential alignment of the total angular momenta of \acp{BBH} detected by LIGO and Virgo, using \Nevents detections from their third observing run and properly accounting for selection effects.
+In addition to alignment of momenta, we simultaneously looked for inhomogeneities in the distribution of sources over the sky.
 We found no evidence against isotropy in either the orientation or, consistent with previous works, the location of LIGO-Virgo \acp{BBH}.
 % Our constraint on the sky location anisotropies is consistent with previous works, although we obtain it by simultaneously allowing for correlations with potential orientation anisotropies.
-Future measurements will improve as the LIGO, Virgo and KAGRA detectors improve in sensitivity, resulting in many more detections at higher signal-to-noise ratios.
+Future measurements will improve as the LIGO, Virgo and KAGRA detectors grow in sensitivity, resulting in many more detections at higher signal-to-noise ratios.
 This will enable more precise constraints, as well as the exploration of higher order anisotropies and other interesting effects, like correlations with redshift.
 
 \begin{acknowledgments}
@@ -321,7 +338,7 @@ Having properly accounted for this degeneracy, $\hat{L}$ can be obtained from th
 \begin{equation}
 \hat{L} = R_{\hat{w}_y}(\iota)\, \hat{k} \, ,
 \end{equation}
-where $R_{\hat{v}}(\theta)$ is a right-handed rotation by an angle $\theta$ around some direction $\hat{v}$, and $\hat{w}_y \propto \hat{k} \times \hat{w}_x$ with $\hat{w}_x = R_{\hat{k}}(\psi) \hat{u}$, for $\hat{u}$ pointing along the Celestial north (see \cite{Anderson:T010110} for details).
+where $R_{\hat{v}}(\theta)$ is a right-handed rotation by an angle $\theta$ around some direction $\hat{v}$, and $\hat{w}_y \propto \hat{k} \times \hat{w}_x$ with $\hat{w}_x = R_{\hat{k}}(\psi) \hat{u}$, for $\hat{u}$ due west (see \cite{Anderson:T010110} for details).
 %as $\hat{w}_y$, which is itself defined by a $\psi$-rotation of the direction due west in the sky around $\hat{k}$.
 We can similarly obtain $\hat{x}$ by rotating $\hat{w}_y$ around $\vec{L}$ by $\phi_\mathrm{ref}$, namely
 \begin{equation}

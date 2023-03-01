@@ -15,3 +15,6 @@ __pycache__
 *.synctex.gz
 *.swp
 .ipynb_checkpoints
+
+# Ignore vscode special settings
+.vscode

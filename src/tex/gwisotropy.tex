@@ -199,8 +199,8 @@ $\dip{N/J}$ (i.e., lacking a strong gradient) while still peaking at $\dip{N/J} 
 
 Besides the location and orientation modeling described above, we need to ensure that our assumptions about the parameters of each individual \ac{BBH}, like masses and redshift, are astrophysically sensible.
 To that end, we assume a redshift distribution that follows the Madau-Dickinson star formation rate \cite{Madau:2014bja} in the comoving frame.
-For the masses, we assume a prior distribution inversely proportional to the heaviest component mass ($\propto 1/m_1$) and uniform in the mass ratio ($\propto q = m_2/m_1$), and restrict our sample to \acp{BH} with (posterior-median) masses in the range $5 \, M_\odot < m_2 \leq m_1 < 150 \, M_\odot$; within that range, this choice is a simple approximation to the measurement in \cite{LIGOScientific:2021psn}.
-We assume component spins are isotropically oriented with respect to the orbital angular momentum, with a uniform distribution over their dimensionless magnitude.%
+For the masses, we assume a prior distribution inversely proportional to the heaviest component mass ($\propto 1/m_1$) and uniform in the mass ratio (constant in $q = m_2/m_1$), and restrict our sample to \acp{BH} with (posterior-median) masses in the range $5 \, M_\odot < m_2 \leq m_1 < 150 \, M_\odot$; within that range, this choice is a simple approximation to the measurement in \cite{LIGOScientific:2021psn}.
+We assume the population of component spins are isotropically oriented with respect to the orbital angular momentum, with a uniform distribution over their dimensionless magnitude.%
 \footnote{This implies that our modeling of $\hat{J}$ following Eq.~\eqref{eq:lnlike} can be reinterpreted as a nontrivial modeling of $\vec{L}$ through Eq.~\eqref{eq:j}.}
 A future analysis may fit the astrophysical distribution of these parameters jointly with the orientation and location of the binaries. 
 
@@ -228,9 +228,9 @@ Isotropy is recovered for $\dip{N} = \dip{J} = 0$, which is well supported by th
 
 Since we are attempting to model the \emph{intrinsic} distribution of all \ac{BBH} sources, not merely those that were detected, we must account for the difference in LIGO-Virgo's sensitivity to various sources.
 This is true for both intrinsic parameters, like \ac{BH} masses and spin magnitudes, as well as the location and orientation parameters in which we are interested for this work (namely, $\hat{N}$ and $\hat{J}$).
-With knowledge of the instruments' sensitivity over parameter space, we deconvolve such selection function to obtain a measurement of the intrinsic distribution of parameters out of the distribution of detected sources \cite{Loredo:2004nn,Mandel:2018mve}.
+With knowledge of the instruments' sensitivity over parameter space, we use the measured selection function to obtain a measurement of the intrinsic distribution of parameters out of the distribution of detected sources \cite{Loredo:2004nn,Mandel:2018mve}.
 
-Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines using synthetic signals.
+Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines by injecting and recovering synthetic signals.
 As in \cite{Essick:2022slj}, we take advantage of the dataset in \cite{o3-selection} for this purpose.
 Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
@@ -240,7 +240,7 @@ Since this injection campaign only covered LIGO-Virgo's third observing run, we 
 
 We showcase the full result of our analysis in Fig.~\ref{fig:jn_corner}, which represents the simultaneous measurement of location and orientation anisotropies through the six-dimensional posterior on the components of $\dip{N}$ and $\dip{J}$.
 The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the \clN and \clJ quantiles respectively;%
-\footnote{These three-dimensional quantiles correspond to the fraction of posterior samples with higher probability density than the origin.}
+\footnote{These three-dimensional quantiles correspond to the fraction of posterior samples with higher probability density than the origin.  \wf{I think it matters, so is this density in $\vec{v}$ or $\vec{u}$ space?}}
 % \vv{I don't know what is normal here. How about also listing those numbers for the prior?}
  this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
@@ -261,7 +261,7 @@ The posteriors are tighter with respect to the prior, as is also reflected in Fi
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
 In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
-\footnote{For example, it is easy to see that this would be the case if the posterior samples for $\dip{J/N}$ where drawn from a zero-mean multivariate Gaussian, irrespective of the variance.}
+\footnote{For example, it is easy to see that this would be the case if the posterior samples for $\dip{J/N}$ where drawn from a zero-mean multivariate Gaussian, irrespective of the variance.  \wf{I don't undestand this footnote: if, in fact, the variance tensor of this supposed Gaussian were isotropic (proportional to the identity), then the samples \emph{would} be uniformly distributed on the sky, no?}}
 
 In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
 Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.
@@ -279,7 +279,7 @@ These are shifted rightward with respect to the implied prior (gray), which itse
 
 We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
 However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
-\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small).}
+\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small.  Any density in $\dip{J/N}$ that is finite at the origin will produce a density on $\left| \dip{J/N} \right|$ that behaves as $\left| \dip{J/N} \right|^2$ near the origin.}
 Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
 With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
 
@@ -291,7 +291,7 @@ In addition to alignment of momenta, we simultaneously looked for inhomogeneitie
 We found no evidence against isotropy in either the orientation or, consistent with previous works, the location of LIGO-Virgo \acp{BBH}.
 % Our constraint on the sky location anisotropies is consistent with previous works, although we obtain it by simultaneously allowing for correlations with potential orientation anisotropies.
 Future measurements will improve as the LIGO, Virgo and KAGRA detectors grow in sensitivity, resulting in many more detections at higher signal-to-noise ratios.
-This will enable more precise constraints, as well as the exploration of higher order anisotropies and other interesting effects, like correlations with redshift.
+This will enable more precise constraints, as well as the exploration of higher order anisotropies and other interesting effects, like correlations with redshift or, potentially, local correlations in the directions $\hat{N}$ and $\hat{J}$ on the sky.  \wf{too much?}
 
 \begin{acknowledgments}
 The Flatiron Institute is a division of the Simons Foundation, supported through the generosity of Marilyn and Jim Simons.

@@ -260,10 +260,7 @@ The posteriors are tighter with respect to the prior, as is also reflected in Fi
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
 In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.
-% \footnote{It is easy to see that this would be the case for any finite number of draws from a zero-mean, multivariate and isotropic Gaussian, irrespective of the variance. 
-% %% WIP: ongoing discussion about Will's comment below:
-% % \wf{I don't undestand this footnote: if, in fact, the variance tensor of this supposed Gaussian were isotropic (proportional to the identity), then the samples \emph{would} be uniformly distributed on the sky, no?}
-% }
+\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}. \wf{Max, is this what you were getting at?}}
 
 In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
 Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.

@@ -128,7 +128,7 @@ Such studies are not sensitive to the kind of overall alignment in absolute spac
 \caption{\emph{\ac{BBH} orientation models.} By default, we expect \ac{BBH} angular momenta (arrows) to be oriented randomly with respect to Earth (black circle) or each other, reflecting isotropy (first panel).
 In this study, we consider the possibility that \ac{BBH} orbits follow a special direction in space, the extreme of which is full alignment (second panel).
 Previous studies, like Ref.~\cite{Vitale:2022pmu}, have considered models in which binaries are (or are perceived to be) aligned anomalously with respect to Earth, e.g., pointing preferentially towards it (third panel).
-\vv{Really like this figure. I'd make it two-col so it's easier to see the arrows.} \wf{We should be sure to note that the first two panels both have a distribution of inclinations that looks isotropic.}
+The first two panels both have a distribution of inclinations that looks isotropic to analyses like Ref.~\cite{Vitale:2022pmu}.
 }
 \label{fig:vectors}
 % \end{figure}
@@ -239,7 +239,7 @@ Since this injection campaign only covered LIGO-Virgo's third observing run, we 
 
 We showcase the full result of our analysis in Fig.~\ref{fig:jn_corner}, which represents the simultaneous measurement of location and orientation anisotropies through the six-dimensional posterior on the components of $\dip{N}$ and $\dip{J}$.
 The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the \clN and \clJ quantiles respectively;%
-\footnote{These three-dimensional quantiles correspond to the fraction of posterior samples with higher probability density than the origin.  \wf{I think it matters, so is this density in $\vec{v}$ or $\vec{u}$ space?}}
+\footnote{These three-dimensional quantiles correspond to the fraction of $\dip{J/N}$ samples with higher probability density than the origin.}
 % \vv{I don't know what is normal here. How about also listing those numbers for the prior?}
  this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
@@ -259,8 +259,11 @@ The posteriors are tighter with respect to the prior, as is also reflected in Fi
 
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
-In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
-\footnote{For example, it is easy to see that this would be the case if the posterior samples for $\dip{J/N}$ where drawn from a zero-mean multivariate Gaussian, irrespective of the variance.  \wf{I don't undestand this footnote: if, in fact, the variance tensor of this supposed Gaussian were isotropic (proportional to the identity), then the samples \emph{would} be uniformly distributed on the sky, no?}}
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.
+% \footnote{It is easy to see that this would be the case for any finite number of draws from a zero-mean, multivariate and isotropic Gaussian, irrespective of the variance. 
+% %% WIP: ongoing discussion about Will's comment below:
+% % \wf{I don't undestand this footnote: if, in fact, the variance tensor of this supposed Gaussian were isotropic (proportional to the identity), then the samples \emph{would} be uniformly distributed on the sky, no?}
+% }
 
 In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
 Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.

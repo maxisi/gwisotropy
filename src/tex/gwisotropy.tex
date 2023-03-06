@@ -122,9 +122,9 @@ Such studies are not sensitive to the kind of overall alignment in absolute spac
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_iso.pdf}
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_dip.pdf}
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_inc.pdf}
-% \includegraphics[width=0.325\columnwidth]{gw_orientation_iso.pdf}
-% \includegraphics[width=0.325\columnwidth]{gw_orientation_dip.pdf}
-% \includegraphics[width=0.325\columnwidth]{gw_orientation_inc.pdf}
+% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_iso.pdf}
+% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_dip.pdf}
+% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_inc.pdf}
 \caption{\emph{\ac{BBH} orientation models.} By default, we expect \ac{BBH} angular momenta (arrows) to be oriented randomly with respect to Earth (black circle) or each other, reflecting isotropy (first panel).
 In this study, we consider the possibility that \ac{BBH} orbits follow a special direction in space, the extreme of which is full alignment (second panel).
 Previous studies, like Ref.~\cite{Vitale:2022pmu}, have considered models in which binaries are (or are perceived to be) aligned anomalously with respect to Earth, e.g., pointing preferentially towards it (third panel).
@@ -242,16 +242,20 @@ The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ a
 \footnote{These three-dimensional quantiles correspond to the fraction of $\dip{J/N}$ samples with higher probability density than the origin.}
 % \vv{I don't know what is normal here. How about also listing those numbers for the prior?}
  this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
+(Recall that the prior does not treat the origin as a special point per Appendix \ref{app:prior}.)
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
 
 \begin{figure*}
 \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_j.pdf}}
 \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_n.pdf}}
 \subfloat[][prior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_prior.pdf}}
+% \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_j.pdf}}\\
+% \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_n.pdf}}\\
+% \subfloat[][prior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_prior.pdf}}
 \caption{\emph{3D distributions.} Three-dimensional representation of the $\dip{J/N}$ measurement in Fig.~\ref{fig:jn_corner} (first two panels), in comparison to the prior (last panel).
 Each point is drawn from the corresponding three-dimensional distribution, with color proportional to the probability density (lighter colors for higher density).
 The origin, representing isotropy, is well favored in all cases (intersection of gray dashed lines).
-The posteriors are tighter with respect to the prior, as is also reflected in Fig.~\ref{fig:jn_norm}.
+The posteriors are tighter with respect to the prior, as is also seen in Fig.~\ref{fig:jn_norm}.
 }
 \label{fig:density_3d}
 \script{density_3d_plot.py}
@@ -259,8 +263,8 @@ The posteriors are tighter with respect to the prior, as is also reflected in Fi
 
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
-In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.
-\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}. \wf{Max, is this what you were getting at?}}
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
+\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
 
 In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
 Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.

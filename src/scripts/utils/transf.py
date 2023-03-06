@@ -1,3 +1,24 @@
+# -*- coding: utf-8 -*-
+#
+#       Copyright 2023
+#       Maximiliano Isi <max.isi@ligo.org>
+#       Will M. Farr <will.farr@ligo.org>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
@@ -203,27 +224,75 @@ ks3 = ['ra', 'sindec', 'cosiota', 'psi', 'mass_1', 'mass_2',
        'spin_2x', 'spin_2y', 'spin_2z',
        'phase', 'fref']
 
-def get_vectors(rwt_samples_dict, fref=20):
-    bbh_vecs_location = []
-    bbh_vecs_orientation = []
-    bbh_vecs_total_orientation = []
+def get_vectors(rwt_samples_dict, fref=20.):
+    """Get location (N) and orientation (J, L) vectors in Cartesian celestial 
+    coordinates for a number of samples drawn in parameter estimation for each
+    event.
+    
+    Arguments
+    ---------
+    rwt_samples_dict : dict
+        dictionary of samples per event, like `{event: samples}`, where
+        `samples` is a `pd.DataFrame` containing PE samples for `event`.
+    fref : float
+        reference frequency for spin orientations.
+        
+    Returns
+    -------
+    vecs_location : list
+        binary locations; list of tuples with entries of dimension `(Nsamp, 3)`, 
+        where `Nsamp` is the number of samples per event.
+    vecs_orientation : list
+        orbital angular momenta; list of tuples with entries of dimension 
+        `(Nsamp, 3)`, where `Nsamp` is the number of samples per event.
+    vecs_total_location : list
+        total angular momenta; list of tuples with entries of dimension 
+        `(Nsamp, 3)`, where `Nsamp` is the number of samples per event.
+    """
+    vecs_location = []
+    vecs_orientation = []
+    vecs_total_orientation = []
     for e, samples in tqdm(rwt_samples_dict.items()):
         df_e = pd.DataFrame(samples[ks1])
         df_e['sindec'] = np.sin(df_e['dec'])
         df_e['cosiota'] = np.cos(df_e['iota'])
-        # assume reference frequency was 20 Hz
-        df_e['fref'] = fref
+        # assume reference frequency was default if not given
+        if 'fref' not in df_e.columns:
+            df_e['fref'] = fref
         # the following will apply the desired functions to each row
         # of the DataFrame
         nhats = df_e[ks2].apply(lambda x: get_location_vector(*x), axis=1)
         lhats = df_e[ks2].apply(lambda x: get_orientation_vector(*x), axis=1)
         jhats = df_e[ks3].apply(lambda x: get_total_orientation_vector(*x), axis=1)
-        bbh_vecs_location.append(np.stack(nhats.values))
-        bbh_vecs_orientation.append(np.stack(lhats.values))
-        bbh_vecs_total_orientation.append(np.stack(jhats.values))
-    return bbh_vecs_location, bbh_vecs_orientation, bbh_vecs_total_orientation
+        vecs_location.append(np.stack(nhats.values))
+        vecs_orientation.append(np.stack(lhats.values))
+        vecs_total_orientation.append(np.stack(jhats.values))
+    return vecs_location, vecs_orientation, vecs_total_orientation
 
 def get_sel_vectors(df_sel, fref=20, rng=np.random.default_rng()):
+    """Get location (N) and orientation (J, L) vectors in Cartesian celestial 
+    coordinates for a number of detected injections to evaluate the selection
+    function.
+    
+    Arguments
+    ---------
+    df_sel : pd.DataFrame
+        DataFrame containing parameters of detected injections as columns.
+    fref : float
+        reference frequency for spin orientations.
+    rng : np.random.Generator
+        random number generator used to generate random `phase` if that 
+        parameter is not provided (opt.)
+        
+    Returns
+    -------
+    sel_vecs_n : pd.DataFrame
+        binary locations; shape `(Ninj, 3)` for `Ninj` injections.
+    sel_vecs_l : pd.DataFrame
+        orbital angular momenta; shape `(Ninj, 3)` for `Ninj` injections.
+    sel_vecs_j : pd.DataFrame
+        total angu momenta; shape `(Ninj, 3)` for `Ninj` injections.
+    """
     df_sel['mass_1'] = df_sel['m1'].values
     df_sel['mass_2'] = (df_sel['m1']*df_sel['q']).values
     if 'fref' not in df_sel.columns:

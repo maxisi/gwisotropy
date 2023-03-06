@@ -1,3 +1,24 @@
+# -*- coding: utf-8 -*-
+#
+#       Copyright 2023
+#       Maximiliano Isi <max.isi@ligo.org>
+#       Will M. Farr <will.farr@ligo.org>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
 from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib
@@ -14,6 +35,8 @@ fig_height = fig_width*fig_ratio
 figsize_column = (fig_width, fig_height)
 
 def sky_scatter(x, ax=None, **kws):
+    """Scatter Mollweide projection.
+    """
     fig = plt.figure()
     if ax is None:
         ax = fig.add_subplot(111, projection='mollweide')
@@ -32,57 +55,9 @@ def sky_scatter(x, ax=None, **kws):
     ax.scatter(lon, lat, c=c, norm=cnorm, **def_kws)
     return ax
 
-def sky_hex(x, ax=None, **kws):
-    fig = plt.figure()
-    if ax is None:
-        ax = fig.add_subplot(111, projection='mollweide')
-    cnorm = matplotlib.colors.Normalize(vmin=0, vmax=1)
-
-    vecs = x.reshape(np.prod(x.shape[:2]), 3)
-
-    # idxs = random.choice(arange(len(nhats)), 512, replace=False)
-    c = np.linalg.norm(vecs, axis=1)
-    idxs = ...
-    lat = np.arcsin(vecs[idxs,2]/c)
-    lon = np.arctan2(vecs[idxs,1], vecs[idxs,0])
-    c = np.linalg.norm(vecs, axis=1)
-    def_kws = dict(cmap='magma')
-    def_kws.update(**kws)
-    ax.hexbin(lon, lat, C=c, norm=cnorm, **def_kws)
-    return ax
-
-def sky_density(x, cmap='viridis', bin_number=15):
-    import cartopy.crs as ccrs
-    vecs = x.reshape(np.prod(x.shape[:-1]), 3)
-    
-    # idxs = random.choice(arange(len(nhats)), 512, replace=False)
-    c = np.linalg.norm(vecs, axis=1)
-    lat = np.arcsin(vecs[:,2]/c)
-    lon = np.arctan2(vecs[:,1], vecs[:,0])
-    
-    lon_edges = np.linspace(-np.pi, np.pi, bin_number + 1)
-    lat_edges = np.arcsin(np.linspace(-1., 1., bin_number + 1))
-
-    # calculate 2D histogram, the shape of hist is (bin_number, bin_number)
-    data, lon_edges, lat_edges = np.histogram2d(lon, lat, 
-                                                bins=[lon_edges, lat_edges],
-                                                density=True)
-    # compute bin centers
-    x = 0.5*(lon_edges[1:] + lon_edges[:-1])
-    y = 0.5*(lat_edges[1:] + lat_edges[:-1])
-
-    X, Y = np.degrees(np.meshgrid(x, y))
-
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1, projection=ccrs.Mollweide())
-
-    ax.contourf(X, Y, data.T, levels=5,
-                transform=ccrs.PlateCarree(),
-                cmap=cmap)
-    ax.set_global()
-    return ax
-
 def add_colorbar(ax, key='N', cmap='viridis'):
+    """Add colorbar to ``sky_scatter`` plot.
+    """
     cmap = 'viridis'
     color_ticks = [-1, 0, 1]
     norm = matplotlib.colors.Normalize(vmin=0, vmax=1)

@@ -1,8 +1,27 @@
+# -*- coding: utf-8 -*-
+#
+#       Copyright 2023
+#       Maximiliano Isi <max.isi@ligo.org>
+#       Will M. Farr <will.farr@ligo.org>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
 import pymc as pm
 import numpy as np
-import pandas as pd
 import aesara.tensor as at
-import aesara.tensor.slinalg as atl
 import arviz as az
 import scipy.stats as ss
 from . import settings
@@ -155,24 +174,20 @@ def draw_prior(sigma=1/np.sqrt(5), ndraw=100000, rng=None, seed=None):
     return v
 
 def cl_origin(vecs):
+    """Compute the credibile level of the origin, defined as the fraction of
+    samples with probability density greater than the origin.
+    
+    Arguments
+    ---------
+    vecs : array
+        Nx3 array containing three Cartesian vector components for N samples.
+
+    Returns
+    -------
+    cl : float
+        credible level.
+    """
     kde = ss.gaussian_kde(vecs.T)
     po = kde([0,0,0])
     ps = kde(vecs.T)
     return np.count_nonzero(ps > po) / len(ps)
-
-def print_cl_origin(fit, raw=False):
-    if raw:
-        vN = fit.posterior.vN_raw.values
-        vL = fit.posterior.vL_raw.values
-        l = " raw"
-    else:
-        vN = fit.posterior.vN.values
-        vL = fit.posterior.vL.values
-        l = ""
-    print('Origin in{} location is at {:.2f}'.format(l, cl_origin(vN.reshape((-1, 3)))))
-    print('Origin in{} orientation is at {:.2f}'.format(l, cl_origin(vL.reshape((-1, 3)))))
-    
-def print_all_cls(fit):
-    print_cl_origin(fit)
-    print()
-    print_cl_origin(fit, raw=True)

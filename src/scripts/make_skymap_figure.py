@@ -4,8 +4,8 @@ from glob import glob
 import os
 import numpy as np
 
-skypath = str(paths.figures / "skymap_j_{}.pdf")
-fname = os.path.basename(skypath)
+fname = "skymap_j_{}.pdf"
+skypath = str(paths.static / fname)
 
 events = []
 for p in sorted(glob(skypath.format('*'))):
@@ -35,8 +35,6 @@ the events in our set, in a Molweide projection of Earth-centric Celestial coord
 \label{fig:skymaps-%i}
 \end{figure*}"""
 
-outpath = str(paths.output / "skymaps.tex")
-
 figures = []
 for ipage in range(npage):
     figure = header
@@ -59,6 +57,14 @@ for ipage in range(npage):
     if npage > 1 and ipage < npage-1:
         figure += "%\n"
     figures.append(figure)
-    
-with open(outpath.format(ipage), 'w') as f:
+
+outpath = str(paths.output / "skymaps.tex")
+with open(outpath, 'w') as f:
     f.write(''.join(figures))
+
+# check figures present in figures/
+import shutil
+for e in events:
+    figs_path = paths.figures / fname.format(e)
+    stat_path = paths.static / fname.format(e)
+    shutil.copy(stat_path, figs_path)

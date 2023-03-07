@@ -27,7 +27,6 @@ s = r"""\begin{subfigure}{%.2f\textwidth}
 
 header = r"""\begin{figure*}
 \captionsetup[subfigure]{labelformat=empty}
-\centering
 """
 
 footer = r"""

@@ -43,6 +43,12 @@ rule table:
     script:
         "src/scripts/make_table.py"
 
+rule skymaps:
+    output:
+        "src/tex/output/skymaps.tex"
+    script:
+        "src/scripts/make_skymap_figure.py"
+
 rule macros:
     input:
         "src/data/gwisotropy_result.nc",

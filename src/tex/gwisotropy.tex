@@ -2,12 +2,13 @@
 % \documentclass[twocolumn]{aastex631}
 \documentclass[aps,prd,twocolumn,superscriptaddress,preprintnumbers,floatfix,nofootinbib]{revtex4-2}
 \usepackage{showyourwork}
-\usepackage[caption=false]{subfig}
+%\usepackage[caption=false]{subfig}
 \usepackage[nolist,nohyperlinks]{acronym}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{xspace}
+\usepackage{subcaption}
 
 \newcommand{\ts}{\textsuperscript}
 \newcommand{\beq}{\begin{equation}}
@@ -286,6 +287,23 @@ However, the one-dimensional posteriors on these quantities is heavily dominated
 Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
 With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
 
+\section{Validation}
+\label{sec:validation}
+
+In this section, we contextualize the above measurement by studying simulated datasets where $\hat{H}$ and $\hat{N}$ are isotropically distributed.
+This allows us to both validate our setup and gauge the sensitivity of our measurement.
+We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections; second, by testing our infrastructure on the selection injection set.
+
+\subsection{Isotropized measurements}
+
+To produce an isotropic set of events while preserving the statistical properties of our dataset, we isotropize the distribution of individual-event $\hat{J}$ or $\hat{N}$ posteriors by rigidly rotating each posterior by an arbitrary angle around a randomly chosen direction in the sky.
+By doing this multiple times, we can generate synthetic collections of measurements drawn from an isotropic distribution, while still preserving the correlations and uncertainties intrinsic to each individual-event posterior.
+Through this exercise, we can estimate the number of events at current precision required to constrain $\dip{J/N}$ to any given degree: as we increase the number of simulated events, we expect our analysis to constrain the magnitude of $\dip{J/N}$ with increasing certainty towards zero.
+This does not factor the effect of sensitivity improvements, which would make future measurements more precise; therefore, this does not represent a realistic forecast, but a worst-case scenario projection.
+
+We apply the above procedure starting from a collection of \Nevents isotropized events, the same number as in our actual dataset; we then progressively double the size of this synthetic catalog five times.
+We show the result for $\dip{J}$ in Fig.~XX.
+
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -387,6 +405,8 @@ With this choice, the origin is not disfavored by the three-dimensional prior pr
 \label{fig:prior}
 \script{prior_plot.py}
 \end{figure}
+
+\variable{output/skymaps.tex}
 
 \bibliography{bib}
 

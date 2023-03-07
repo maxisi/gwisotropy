@@ -45,6 +45,7 @@ rule table:
 
 rule macros:
     input:
+        "src/data/gwisotropy_result.nc",
         "src/data/vectors_bbh.pkl"
     output:
         "src/tex/output/macros.tex"

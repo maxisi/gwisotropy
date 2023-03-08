@@ -94,6 +94,7 @@ the population of LIGO-Virgo black holes to be fully consistent with both homoge
 \acro{CBC}{compact-binary coalescence}
 \acro{BH}{black hole}
 \acro{BBH}{binary black hole}
+\acro{FITS}{Flexible Image Transport System}
 \end{acronym}
 
 \section{Introduction}
@@ -151,6 +152,7 @@ We conclude in Sec.~\ref{sec:conclusion}.
 In order to study the spatial distribution and orientation of \acp{BBH}, we must analyze the collection of detections under a hierarchical population model that allows for variable degrees of spatial and directional correlations (see, e.g., Ref.~\cite{Essick:2022slj}).
 This requires modeling the distribution of source locations, $\hat{N}$, and total-angular-momentum directions, $\hat{J}$.
 For modeling purposes, the $\hat{N}$ and $\hat{J}$ vectors must be expressed through their Cartesian components in some absolute reference frame.
+
 We choose to work in geocentric celestial coordinates, such that, for each \ac{BBH}, the sky-location vector is
 \begin{equation} \label{eq:n}
 \hat{N} = \left( \cos\alpha \cos\delta, \sin\alpha \cos\delta, \sin\delta \right) ,
@@ -160,7 +162,7 @@ for the right ascension $\alpha$ and declination $\delta$; meanwhile, the orient
 \vec{J} = \vec{L} + \vec{S}_1 + \vec{S}_2 \, ,
 \end{equation}
 for the orbital angular momentum $\vec{L}$ and individual (dimensionful) \ac{BH} spins $\vec{S}_{1/2}$.
-The Cartesian components of $\hat{J}$ can be computed in the above frame as a function of $\alpha$, $\delta$, and the polarization angle $\psi$ \cite{Isi:2022mbx}, as well as the component masses $m_{1/2}$, the dimensionless spin vectors $\vec{\chi}_{1/2}$ and the orbital phase $\phi_{\rm ref}$ at some reference frequency $f_{\rm ref}$; we outline this calculation in Appendix \ref{app:j} and show the result as skymaps for all events in our set in Fig.\ref{fig:skymaps-1}.
+The Cartesian components of $\hat{J}$ can be computed in the above frame as a function of $\alpha$, $\delta$, and the polarization angle $\psi$ \cite{Isi:2022mbx}, as well as the component masses $m_{1/2}$, the dimensionless spin vectors $\vec{\chi}_{1/2}$ and the orbital phase $\phi_{\rm ref}$ at some reference frequency $f_{\rm ref}$; we outline this calculation in Appendix \ref{app:j}.
 We prefer to work with $\hat{J}$ rather than $\hat{L}$ because the former is conserved over the coalescence to a high degree, even for precessing systems \cite{}.
 \mi{VIJAY, what's the best reference for this?}
 
@@ -197,6 +199,7 @@ $\dip{N/J}$ (i.e., lacking a strong gradient) while still peaking at $\dip{N/J} 
 \ref{app:prior} for a description of this feature.
 
 \subsection{Reweighting to an astrophysical population}
+\label{sec:reweight}
 
 Besides the location and orientation modeling described above, we need to ensure that our assumptions about the parameters of each individual \ac{BBH}, like masses and redshift, are astrophysically sensible.
 To that end, we assume a redshift distribution that follows the Madau-Dickinson star formation rate \cite{Madau:2014bja} in the comoving frame.
@@ -205,27 +208,9 @@ We assume the population of component spins are isotropically oriented with resp
 \footnote{This implies that our modeling of $\hat{J}$ following Eq.~\eqref{eq:lnlike} can be reinterpreted as a nontrivial modeling of $\vec{L}$ through Eq.~\eqref{eq:j}.}
 A future analysis may fit the astrophysical distribution of these parameters jointly with the orientation and location of the binaries. 
 
-Our analysis starts from posterior samples for individual events reported by LIGO-Virgo in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb} and publicly released in \cite{zenodo:GWTC-2.1,zenodo:GWTC-3} through the Gravitational Wave Open Science Center \cite{GWOSC:GWTC-2.1,GWOSC:GWTC-3,LIGOScientific:2019lzm}.
-Specifically, we make use of results obtained with the \textsc{IMRPhenomXPHM} waveform \cite{Pratten:2020ceb,Pratten:2020fqn,Garcia-Quiros:2020qpx,Garcia-Quiros:2020qlt} that have been already reweighted to a distance prior uniform in comoving volume.
-The single-event inference was carried out by the LIGO-Virgo collaborations using the \textsc{Bilby} parameter estimation pipeline \cite{Romero-Shaw:2020owr,Ashton:2018jfp}, as detailed in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb}.
-We reweight those samples following the astrophysical population described above (see, e.g., \cite{Miller:2020zox,Essick:2022ojx} for methodology) and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
-
-% insert programatically-generated table of analyzed events
-\variable{output/events.tex}
-
-\begin{figure*}[p]
-\includegraphics[width=\textwidth]{figures/jn_corner.pdf}
-\caption{\emph{Isotropy measurement.} Result of the simultaneous measurement of location and orientation isotropy through the model in Eq.~\eqref{eq:lnlike}, as represented by the posterior distribution on the dipole vectors $\dip{N/J}$ (corner plot), and the corresponding projections over the sky (Mollweide insets).
-The six-dimensional posterior distribution is represented through credible levels over two-dimensional slices (blue countours, spaced at intervals corresponding to 10\% increments in probability mass, with the outer contour enclosing 90\% of the probability), and one-dimensional marginals (diagonal).
-The upper-left and lower-right sub-corners encode constraints on the magnitude and direction of each $\dip{N}$ and $\dip{J}$ respectively (highlighted with vertical and horizontal lines in the margin), while the other panels encode potential correlations between the location and orientation inisotropies.
-The measurements for $\dip{N/J}$ can be projected into distribution over the sky as in the top-right insets, where each dot marks the direction in celestial coordinates of one sample drawn from the $\dip{N}$ (top) or $\dip{J}$ (bottom) distributions, with color encoding the magnitude of the vector; inhomogeneities in these sky-maps do not constitute evidence for anisotropies.
-Isotropy is recovered for $\dip{N} = \dip{J} = 0$, which is well supported by this posterior (gray dotted lines).
-}
-\label{fig:jn_corner}
-\script{corner_plot.py}
-\end{figure*}
 
 \subsection{Selection biases}
+\label{sec:selection}
 
 Since we are attempting to model the \emph{intrinsic} distribution of all \ac{BBH} sources, not merely those that were detected, we must account for the difference in LIGO-Virgo's sensitivity to various sources.
 This is true for both intrinsic parameters, like \ac{BH} masses and spin magnitudes, as well as the location and orientation parameters in which we are interested for this work (namely, $\hat{N}$ and $\hat{J}$).
@@ -235,9 +220,35 @@ Evaluating the detectors' sensitivity over parameter space requires large simula
 As in \cite{Essick:2022slj}, we take advantage of the dataset in \cite{o3-selection} for this purpose.
 Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
+\section{Data}
+\label{sec:data}
+
+Our analysis starts from posterior samples for individual events reported by LIGO-Virgo in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb} and publicly released in \cite{zenodo:GWTC-2.1,zenodo:GWTC-3} through the Gravitational Wave Open Science Center \cite{GWOSC:GWTC-2.1,GWOSC:GWTC-3,LIGOScientific:2019lzm}.
+Specifically, we make use of results obtained with the \textsc{IMRPhenomXPHM} waveform \cite{Pratten:2020ceb,Pratten:2020fqn,Garcia-Quiros:2020qpx,Garcia-Quiros:2020qlt} that have been already reweighted to a distance prior uniform in comoving volume.
+The single-event inference was carried out by the LIGO-Virgo collaborations using the \textsc{Bilby} parameter estimation pipeline \cite{Romero-Shaw:2020owr,Ashton:2018jfp}, as detailed in \cite{LIGOScientific:2021djp,LIGOScientific:2021usb}.
+We reweight those samples following the astrophysical population described above (see, e.g., \cite{Miller:2020zox,Essick:2022ojx} for methodology) and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
+
+% insert programatically-generated table of analyzed events
+\variable{output/events.tex}
+
+The six-dimensional posteriors for the components of $\hat{J}$ and $\hat{N}$ for each event are the primary input for our hierarchical isotropy analysis.
+We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \cite{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release.
+The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-2.1,zenodo:GWTC-3}.
 
 \section{Results}
 \label{sec:results}
+
+\begin{figure*}[p]
+\includegraphics[width=\textwidth]{figures/jn_corner.pdf}
+\caption{\emph{Isotropy measurement.} Result of the simultaneous measurement of location and orientation isotropy through the model in Eq.~\eqref{eq:lnlike}, as represented by the posterior distribution on the dipole vectors $\dip{N/J}$ (corner plot), and the corresponding projections over the sky (Mollweide insets).
+The six-dimensional posterior distribution is represented through credible levels over two-dimensional slices (blue countours, spaced at intervals corresponding to 10\% increments in probability mass, with the outer contour enclosing 90\% of the probability), and one-dimensional marginals (diagonal).
+The upper-left and lower-right sub-corners encode constraints on the magnitude and direction of each $\dip{N}$ and $\dip{J}$ respectively (highlighted with vertical and horizontal lines in the margin), while the other panels encode potential correlations between the location and orientation inisotropies.
+The measurements for $\dip{N/J}$ can be projected into distribution over the sky as in the top-right insets, where each dot marks the direction in celestial coordinates of one sample drawn from the $\dip{N}$ (top) or $\dip{J}$ (bottom) distributions, with color encoding the magnitude of the vector; inhomogeneities in these sky-maps do not constitute evidence for anisotropies.
+Isotropy is recovered for $\dip{N} = \dip{J} = 0$ (dotted lines), which is well supported by this posterior.
+}
+\label{fig:jn_corner}
+\script{corner_plot.py}
+\end{figure*}
 
 We showcase the full result of our analysis in Fig.~\ref{fig:jn_corner}, which represents the simultaneous measurement of location and orientation anisotropies through the six-dimensional posterior on the components of $\dip{N}$ and $\dip{J}$.
 The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the \clN and \clJ quantiles respectively;%
@@ -291,11 +302,12 @@ With that in mind, the influence of the data can be seen in the leftward shift o
 \section{Validation}
 \label{sec:validation}
 
-In this section, we contextualize the above measurement by studying simulated datasets where $\hat{H}$ and $\hat{N}$ are isotropically distributed.
+In this section, we contextualize the above measurement by studying simulated datasets where $\hat{J}$ and $\hat{N}$ are isotropically distributed.
 This allows us to both validate our setup and gauge the sensitivity of our measurement.
-We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections; second, by testing our infrastructure on the selection injection set.
+We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections (Sec.~\ref{sec:validation:isotropized}); second, by testing our infrastructure on set of injections used to evaluate our selection function (Sec.~\ref{sec:validation:selection}).
 
 \subsection{Isotropized measurements}
+\label{sec:validation:isotropized}
 
 To produce an isotropic set of events while preserving the statistical properties of our dataset, we isotropize the distribution of individual-event $\hat{J}$ or $\hat{N}$ posteriors by rigidly rotating each posterior by an arbitrary angle around a randomly chosen direction in the sky.
 By doing this multiple times, we can generate synthetic collections of measurements drawn from an isotropic distribution, while still preserving the correlations and uncertainties intrinsic to each individual-event posterior.
@@ -304,6 +316,9 @@ This does not factor the effect of sensitivity improvements, which would make fu
 
 We apply the above procedure starting from a collection of \Nevents isotropized events, the same number as in our actual dataset; we then progressively double the size of this synthetic catalog five times.
 We show the result for $\dip{J}$ in Fig.~XX.
+
+\subsection{Injections from selection set}
+\label{sec:validation:selection}
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -406,6 +421,19 @@ With this choice, the origin is not disfavored by the three-dimensional prior pr
 \label{fig:prior}
 \script{prior_plot.py}
 \end{figure}
+
+\section{Direction of total angular momentum for individual events}
+\label{app:skymaps}
+
+In Fig.~\ref{fig:skymaps-1}, we present posteriors on the direction of the total angular momentum $\hat{J}$ for all \Nevents events in our set.
+We produced these posteriors by applying the calculation described in Appendix \ref{app:j} to the samples released by LIGO-Virgo \cite{zenodo:GWTC-2.1,zenodo:GWTC-3}, after reweighting as outlined in Sec.~\ref{sec:reweight}.
+
+The skymaps in the figure provide a Molleweide projection of probability density over the Celestial, in the standard equatorial, geocentric coordinates used in the main text.
+A darker color corresponds to a direction in the sky with more probability density.
+From these maps, it is clear that not all events are equally informative about $\hat{J}$; better constrained events will tend to dominate our hierarchical measurement.
+
+The skymaps were produced using the \textsc{ligo.skymap} package \cite{skymap,Singer:2016eax,Singer:2016erz}, a set of standard LIGO-Virgo tools for the processing of probability densities over the sphere.
+We make these figures,  corresponding \ac{FITS} files, and code used to generate them, available in our data release.
 
 \variable{output/skymaps.tex}
 

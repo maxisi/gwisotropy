@@ -29,7 +29,7 @@ header = r"""\begin{figure*}
 
 footer = r"""
 \caption{Measurements of the total angular momentum direction, $\hat{J}$, for
-the events in our set, in a Molweide projection of Earth-centric Celestial coordinates; darker color represents higher probability density for that direction in space%s.}
+the events in our set, in a Mollweide projection of Earth-centric Celestial coordinates; darker color represents higher probability density for that direction in space%s.}
 \label{fig:skymaps-%i}
 \end{figure*}"""
 

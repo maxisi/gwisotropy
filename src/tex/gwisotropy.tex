@@ -153,7 +153,8 @@ In order to study the spatial distribution and orientation of \acp{BBH}, we must
 This requires modeling the distribution of source locations, $\hat{N}$, and total-angular-momentum directions, $\hat{J}$.
 For modeling purposes, the $\hat{N}$ and $\hat{J}$ vectors must be expressed through their Cartesian components in some absolute reference frame.
 
-We choose to work in geocentric celestial coordinates, such that, for each \ac{BBH}, the sky-location vector is
+We choose to work in geocentric, equatorial celestial coordinates, with the vernal equinox as the $x$ axis.
+In that frame, the sky-location vector is, for each \ac{BBH},
 \begin{equation} \label{eq:n}
 \hat{N} = \left( \cos\alpha \cos\delta, \sin\alpha \cos\delta, \sin\delta \right) ,
 \end{equation}
@@ -261,22 +262,10 @@ The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022sl
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 These skymaps reveal that the data are not in conflict with the existence of a weak dipole along the vernal equinox in the celestial equatorial plane (the direction of the $x$ axis in our Cartesian coordinate system), as implied by the marginal on $\dip{J,x}$ in Fig.~\ref{fig:jn_corner}; this dipole is allowed, but not required, by the data, since the posterior is fully consistent with $\dip{J} = 0$.
 
-Indeed, although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
-In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
-\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
-
-In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
-Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior, indicating that the data are informative.
-The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{N}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
-The stronger tightening in the $\dip{N}$ distribution is a consequence of $\hat{N}$ being better constrained than $\hat{J}$ in individual events.
-
 \begin{figure*}[hbt!]
 \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_j.pdf}}
 \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_n.pdf}}
 \subfloat[][prior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_prior.pdf}}
-% \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_j.pdf}}\\
-% \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_n.pdf}}\\
-% \subfloat[][prior]{\includegraphics[width=0.6\columnwidth]{figures/density_3d_prior.pdf}}
 \caption{\emph{3D distributions.} Three-dimensional representation of the $\dip{J/N}$ measurement in Fig.~\ref{fig:jn_corner} (first two panels), in comparison to the prior (last panel).
 Each point is drawn from the corresponding three-dimensional distribution, with color proportional to the probability density (lighter colors for higher density).
 The origin, representing isotropy, is well favored in all cases (intersection of gray dashed lines).
@@ -285,6 +274,15 @@ The posteriors are tighter with respect to the prior, as is also seen in Fig.~\r
 \label{fig:density_3d}
 \script{density_3d_plot.py}
 \end{figure*}
+
+Indeed, although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
+\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
+
+In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
+Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior, indicating that the data are informative.
+The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{N}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
+The stronger tightening in the $\dip{N}$ distribution is a consequence of $\hat{N}$ being better constrained than $\hat{J}$ in individual events.
 
 
 We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
@@ -305,19 +303,19 @@ These are shifted rightward with respect to the implied prior (gray), which itse
 \section{Validation}
 \label{sec:validation}
 
-In this section, we contextualize the above measurement by studying simulated datasets where $\hat{J}$ and $\hat{N}$ are isotropically distributed.
+In this section, we contextualize the above measurement by studying simulated datasets in which $\hat{J}$ and $\hat{N}$ are isotropically distributed.
 This allows us to both validate our setup and gauge the sensitivity of our measurement.
 We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections (Sec.~\ref{sec:validation:isotropized}); second, by testing our infrastructure on set of injections used to evaluate our selection function (Sec.~\ref{sec:validation:selection}).
 
 \subsection{Isotropized measurements}
 \label{sec:validation:isotropized}
 
-To produce an isotropic set of events while preserving the statistical properties of our dataset, we isotropize the distribution of individual-event $\hat{J}$ or $\hat{N}$ posteriors by rigidly rotating each posterior by an arbitrary angle around a randomly chosen direction in the sky.
+To produce an isotropic set of events while preserving the statistical properties of our actual observations, we isotropize the distribution of individual-event $\hat{J}$ or $\hat{N}$ posteriors by rigidly rotating each set of samples by an arbitrary angle around a randomly chosen direction in the sky.
 By doing this multiple times, we can generate synthetic collections of measurements drawn from an isotropic distribution, while still preserving the correlations and uncertainties intrinsic to each individual-event posterior.
 Through this exercise, we can estimate the number of events at current precision required to constrain $\dip{J/N}$ to any given degree: as we increase the number of simulated events, we expect our analysis to constrain the magnitude of $\dip{J/N}$ with increasing certainty towards zero.
-This does not factor the effect of sensitivity improvements, which would make future measurements more precise; therefore, this does not represent a realistic forecast, but a worst-case scenario projection.
+Here we do not factor the effect of sensitivity improvements, which would make future measurements more precise; therefore, this does not represent a realistic forecast, but a worst-case scenario projection.
 
-We apply the above procedure starting from a collection of \Nevents isotropized events, the same number as in our actual dataset; we then progressively double the size of this synthetic catalog five times.
+We apply the above procedure starting from a collection of \Nevents isotropized events obtained by randomizing each of the \Nevents in our dataset once, as described above; we then progressively double the size of this synthetic catalog five times, with as many randomizations of our initial set as needed.
 We show the result for $\dip{J}$ in Fig.~XX.
 
 \subsection{Injections from selection set}

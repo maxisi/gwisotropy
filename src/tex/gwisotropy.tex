@@ -233,7 +233,7 @@ We reweight those samples following the astrophysical population described above
 
 The six-dimensional posteriors for the components of $\hat{J}$ and $\hat{N}$ for each event are the primary input for our hierarchical isotropy analysis.
 We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \cite{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release.
-The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-2.1,zenodo:GWTC-3}.
+The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-3.1,zenodo:GWTC-3}.
 
 \section{Results}
 \label{sec:results}
@@ -258,7 +258,19 @@ The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ a
 (Recall that the prior does not treat the origin as a special point per Appendix \ref{app:prior}.)
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
 
-\begin{figure*}
+To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
+These skymaps reveal that the data are not in conflict with the existence of a weak dipole along the vernal equinox in the celestial equatorial plane (the direction of the $x$ axis in our Cartesian coordinate system), as implied by the marginal on $\dip{J,x}$ in Fig.~\ref{fig:jn_corner}; this dipole is allowed, but not required, by the data, since the posterior is fully consistent with $\dip{J} = 0$.
+
+Indeed, although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
+\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
+
+In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
+Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior, indicating that the data are informative.
+The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{N}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
+The stronger tightening in the $\dip{N}$ distribution is a consequence of $\hat{N}$ being better constrained than $\hat{J}$ in individual events.
+
+\begin{figure*}[hbt!]
 \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_j.pdf}}
 \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_n.pdf}}
 \subfloat[][prior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_prior.pdf}}
@@ -274,15 +286,12 @@ The posteriors are tighter with respect to the prior, as is also seen in Fig.~\r
 \script{density_3d_plot.py}
 \end{figure*}
 
-To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
-Although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
-In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
-\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
 
-In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
-Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior.
-The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{J}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
-
+We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
+However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
+\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small.  Any density in $\dip{J/N}$ that is finite at the origin will produce a density on $\left| \dip{J/N} \right|$ that behaves as $\left| \dip{J/N} \right|^2$ near the origin.}
+Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
+With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
 
 \begin{figure}
 \includegraphics[width=0.9\columnwidth]{figures/jn_norm.pdf}
@@ -292,12 +301,6 @@ These are shifted rightward with respect to the implied prior (gray), which itse
 \label{fig:jn_norm}
 \script{norm_plot.py}
 \end{figure}
-
-We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
-However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
-\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small.  Any density in $\dip{J/N}$ that is finite at the origin will produce a density on $\left| \dip{J/N} \right|$ that behaves as $\left| \dip{J/N} \right|^2$ near the origin.}
-Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
-With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
 
 \section{Validation}
 \label{sec:validation}

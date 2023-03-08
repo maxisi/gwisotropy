@@ -74,3 +74,23 @@ def add_colorbar(ax, key='N', cmap='viridis'):
     cb.outline.set_linewidth(0.5)
     cb.ax.tick_params('x', length=0, width=0.5, which='major', labelsize=10)
     return cb
+
+def sky_hex(x, ax=None, **kws):
+    fig = plt.figure()
+    if ax is None:
+        ax = fig.add_subplot(111, projection='mollweide')
+    cnorm = matplotlib.colors.Normalize(vmin=0, vmax=1)
+
+    vecs = x.reshape(np.prod(x.shape[:2]), 3)
+
+    # idxs = random.choice(arange(len(nhats)), 512, replace=False)
+    c = np.linalg.norm(vecs, axis=1)
+    idxs = ...
+    lat = np.arcsin(vecs[idxs,2]/c)
+    lon = np.arctan2(vecs[idxs,1], vecs[idxs,0])
+    c = np.linalg.norm(vecs, axis=1)
+    def_kws = dict(cmap='magma')
+    def_kws.update(**kws)
+    ax.hexbin(lon, lat, C=c, norm=cnorm, **def_kws)
+    return ax
+

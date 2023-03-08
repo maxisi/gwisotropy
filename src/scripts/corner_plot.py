@@ -32,7 +32,7 @@ import arviz as az
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
 
-sns.set(context='notebook', palette='colorblind')
+sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 
 RNG = np.random.default_rng(12345)
 
@@ -70,17 +70,20 @@ with sns.axes_style("ticks"):
                 if i != j:
                     ax.axhline(0, **lkws)
 
-sky_kws = dict(cmap='viridis', s=20, rasterized=True)
+sky_kws = dict(cmap='viridis', rasterized=True, gridsize=50)
 akws = dict(arrowstyle="->", color=sns.color_palette()[0], alpha=0.3, lw=2.5)
+cface = list(sns.color_palette(sky_kws['cmap'])[0])# + [0.5]
 with sns.axes_style("whitegrid", {"grid.linestyle": ':'}):
     axins = pg.axes[1,1].inset_axes([3.25, 0.5, 2.5, 1.5], projection='mollweide')
-    utils.plots.sky_scatter(fit.posterior.vN.values, ax=axins, **sky_kws)
+    utils.plots.sky_hex(fit.posterior.vN.values, ax=axins, **sky_kws)
     utils.plots.add_colorbar(axins, key='N', cmap=sky_kws['cmap'])
+    axins.set_facecolor(cface)
     axins.annotate("", xy=(-0.75, 0.5), xytext=(-0.25, 0.5),
                    arrowprops=akws, xycoords='axes fraction')
 
     axins = pg.axes[4,4].inset_axes([-0.25, 2, 2.5, 1.5], projection='mollweide')
-    utils.plots.sky_scatter(fit.posterior.vL.values, ax=axins, **sky_kws)
+    utils.plots.sky_hex(fit.posterior.vL.values, ax=axins, **sky_kws)
+    axins.set_facecolor(cface)
     utils.plots.add_colorbar(axins, key='J', cmap=sky_kws['cmap']);
     axins.annotate("", xy=(0.5, -0.75), xytext=(0.5, -0.25),
                arrowprops=akws, xycoords='axes fraction')
@@ -91,5 +94,5 @@ lines = [Line2D(x, y, lw=5., alpha=0.3, figure=pg.fig, transform=pg.fig.transFig
 pg.fig.patches.extend(lines)
 
 p = paths.figures / "jn_corner.pdf"
-pg.fig.savefig(p, bbox_inches="tight")
+pg.fig.savefig(p, bbox_inches="tight", dpi=300)
 print(f"Saved: {p}")

@@ -19,14 +19,12 @@ width = 1./ncol
 
 npage = int(np.ceil(len(events) / ntot))
 
-s = r"""\begin{subfigure}{%.2f\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/%s}
-    \caption{%s}
-\end{subfigure}"""
+s = r"""\subfloat{\centering
+    \stackunder{\includegraphics[width=%.2f\textwidth]{figures/%s}}{%s}
+}"""
 
 header = r"""\begin{figure*}
-\captionsetup[subfigure]{labelformat=empty}
+\centering
 """
 
 footer = r"""
@@ -42,6 +40,8 @@ for ipage in range(npage):
         subfig = s % (width, fname.format(e), e.replace('_', '\\_'))
         if (i + 1) % ncol:
             subfig += "%"
+        else:
+            subfig += "\\\\"
         figure += subfig + '\n'
     figure = figure.strip('%\n')
     if ipage > 0:

@@ -41,7 +41,7 @@ RNG = np.random.default_rng(12345)
 # number of event number doublings
 niter = 5
 
-fit_path = str(paths.data / "control_isotropized/fit_{}.nc")
+fit_path = str(paths.data / "control_selection/fit_{}.nc")
 incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(niter)]
 
 nsamp = 1000
@@ -71,5 +71,5 @@ for i, axs in enumerate(g.axes):
             if not i == j:
                 ax.axhline(0, ls=':', c='k')
 
-fname = paths.figures / "control_isotropized.pdf"
+fname = paths.figures / "control_selection.pdf"
 g.fig.savefig(fname, bbox_inches="tight")

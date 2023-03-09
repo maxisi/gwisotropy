@@ -51,10 +51,26 @@ rule isotropizedplot:
         "src/data/control_isotropized"
     output:
         "src/tex/figures/control_isotropized.pdf"
+    script:
+        "src/scripts/control_isotropized_plot.py"
+
+rule controlsel:
+    input:
+        "src/data/vectors_sel.hdf5",
+    output:
+        directory("src/data/control_selection")
     cache:
         True
     script:
-        "src/scripts/control_isotropized_plot.py"
+        "src/scripts/control_selection.py"
+
+rule controlselplot:
+    input:
+        "src/data/control_selection"
+    output:
+        "src/tex/figures/control_selection.pdf"
+    script:
+        "src/scripts/control_selection_plot.py"
 
 rule table:
     input:

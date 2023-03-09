@@ -68,8 +68,12 @@ for i, axs in enumerate(g.axes):
     for j, ax in enumerate(axs):
         if ax is not None:
             ax.axvline(0, ls=':', c='k')
+            ax.set_xlim(-1, 1)
             if not i == j:
                 ax.axhline(0, ls=':', c='k')
+                ax.set_ylim(-1, 1)
+                if j == 0:
+                    ax.set_yticks([-1, 0, 1])
 
 fname = paths.figures / "control_selection.pdf"
 g.fig.savefig(fname, bbox_inches="tight")

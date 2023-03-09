@@ -30,6 +30,7 @@ import arviz as az
 import h5py
 import pymc as pm
 import seaborn as sns
+from glob import glob
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 RNG = np.random.default_rng(12345)
@@ -38,14 +39,12 @@ RNG = np.random.default_rng(12345)
 # LOAD FIT RESULTS
 ###############################################################################
 
-# number of event number doublings
-niter = 5
 
-fit_path = str(paths.data / "control_isotropized/fit_{}.nc")
-incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(niter)]
+fit_path = str(paths.data / "control_isotropized/fit_*.nc")
+incr_fits = [az.from_netcdf(p) for p in sorted(glob(fit_path))]
 
 nsamp = 1000
-keys = [r'$\hat{J}_x$', r'$\hat{J}_y$', r'$\hat{J}_z$']
+keys = [r'$\vec{v}_{J,x}$', r'$\vec{v}_{J,y}$', r'$\vec{v}_{J,z}$']
 
 df = pd.DataFrame()
 for i, fake_fit in enumerate(incr_fits):
@@ -59,8 +58,9 @@ for i, fake_fit in enumerate(incr_fits):
 # PLOT
 ###############################################################################
 
+#with sns.axes_style("whitegrid", {"grid.linestyle": ':'}):
 g = sns.PairGrid(df, hue='N', diag_sharey=False, corner=True,
-                 palette='crest_r')
+             palette='crest_r')
 g.map_lower(sns.kdeplot, levels=[1-0.9], alpha=0.7)
 g.map_diag(sns.kdeplot, alpha=0.7)
 
@@ -68,8 +68,12 @@ for i, axs in enumerate(g.axes):
     for j, ax in enumerate(axs):
         if ax is not None:
             ax.axvline(0, ls=':', c='k')
-            if not i == j:
+            ax.set_xlim(-1, 1)
+            if i != j:
                 ax.axhline(0, ls=':', c='k')
+                ax.set_ylim(-1, 1)
+                if j == 0:
+                    ax.set_yticks([-1, 0, 1])
 
 fname = paths.figures / "control_isotropized.pdf"
 g.fig.savefig(fname, bbox_inches="tight")

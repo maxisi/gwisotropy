@@ -25,7 +25,6 @@ import paths
 from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
-import utils
 import utils.plots
 import pandas as pd
 import arviz as az
@@ -65,10 +64,13 @@ with sns.axes_style("ticks"):
     for i, axs in enumerate(pg.axes):
         for j, ax in enumerate(axs):
             if ax:
-                ax.set_xlim(-1, 1)
                 ax.axvline(0, **lkws)
+                ax.set_xlim(-1, 1)
                 if i != j:
                     ax.axhline(0, **lkws)
+                    ax.set_ylim(-1, 1)
+                    if j == 0:
+                        ax.set_yticks([-1, 0, 1])
 
 sky_kws = dict(cmap='viridis', rasterized=True, gridsize=50)
 akws = dict(arrowstyle="->", color=sns.color_palette()[0], alpha=0.3, lw=2.5)
@@ -80,7 +82,7 @@ with sns.axes_style("whitegrid", {"grid.linestyle": ':'}):
     axins.set_facecolor(cface)
     axins.annotate("", xy=(-0.75, 0.5), xytext=(-0.25, 0.5),
                    arrowprops=akws, xycoords='axes fraction')
-
+    
     axins = pg.axes[4,4].inset_axes([-0.25, 2, 2.5, 1.5], projection='mollweide')
     utils.plots.sky_hex(fit.posterior.vL.values, ax=axins, **sky_kws)
     axins.set_facecolor(cface)

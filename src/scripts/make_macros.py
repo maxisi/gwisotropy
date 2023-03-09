@@ -25,14 +25,16 @@ import paths
 import pickle as pkl
 import arviz as az
 import numpy as np
+import utils
 from utils.prior import draw_prior
+import utils.inference as ui
 
 RNG = np.random.default_rng(12345)
 
 macros = []
 
 ###############################################################################
-# LOAD POSTERIORS
+# INDIVIDUAL EVENTS
 ###############################################################################
 
 fname = paths.vectors_bbh
@@ -46,7 +48,7 @@ macros.append("\\renewcommand{\\Nevents}{%i\\xspace}" % Nevents)
 
 
 ###############################################################################
-# LOAD FIT
+# HIERARCHICAL FIT
 ###############################################################################
 
 fit = az.from_netcdf(paths.result)
@@ -69,12 +71,24 @@ for k, vs in vdict.items():
         macros.append("\\renewcommand{\\varimp%s%s}{%.0f\\%%\\xspace}"
                       % (k.upper(),i,np.abs(xi)*100))
 
-import utils.inference as ui
 
 #vdict['prior'] = draw_prior(ndraw=100000, rng=RNG)
 for k, vs in vdict.items():
     cl = np.ceil(ui.cl_origin(vs)*100)
     macros.append("\\renewcommand{\\cl%s}{%.0f\\%%\\xspace}" % (k.title(), cl))
+
+###############################################################################
+# VALIDATION RUNS
+###############################################################################
+
+macros.append(r"\renewcommand{\Niteriso}{%i\xspace}" % utils.NITER_ISO)
+nmaxiso = Nevents * 2**(utils.NITER_ISO - 1)
+macros.append(r"\renewcommand{\Nmaxiso}{%i\xspace}" % nmaxiso)
+
+macros.append(r"\renewcommand{\Nitersel}{%i\xspace}" % utils.NITER_SEL)
+macros.append(r"\renewcommand{\Nstartsel}{%i\xspace}" % utils.NSTART_SEL)
+nmaxsel = utils.NSTART_SEL * 2**(utils.NITER_SEL - 1)
+macros.append(r"\renewcommand{\Nmaxsel}{%i\xspace}" % nmaxsel)
 
 ###############################################################################
 # SAVE MACROS

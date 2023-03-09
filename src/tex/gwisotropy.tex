@@ -43,6 +43,11 @@
 \newcommand{\clJ}{}
 \newcommand{\clN}{}
 \newcommand{\clPrior}{}
+\newcommand{\Niteriso}{}
+\newcommand{\Nmaxiso}{}
+\newcommand{\Nitersel}{}
+\newcommand{\Nstartsel}{}
+\newcommand{\Nmaxsel}{}
 \marginicon{}
 \variable{output/macros.tex}
 
@@ -231,11 +236,12 @@ The single-event inference was carried out by the LIGO-Virgo collaborations usin
 We reweight those samples following the astrophysical population described above (see, e.g., \cite{Miller:2020zox,Essick:2022ojx} for methodology) and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
 
 % insert programatically-generated table of analyzed events
+\setlength{\tabcolsep}{4pt}
 \variable{output/events.tex}
 
 The six-dimensional posteriors for the components of $\hat{J}$ and $\hat{N}$ for each event are the primary input for our hierarchical isotropy analysis.
 We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \cite{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release.
-The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-3.1,zenodo:GWTC-3}.
+The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-2.1,zenodo:GWTC-3}.
 
 \section{Results}
 \label{sec:results}
@@ -255,15 +261,18 @@ Isotropy is recovered for $\dip{N} = \dip{J} = 0$ (dotted lines), which is well 
 We showcase the full result of our analysis in Fig.~\ref{fig:jn_corner}, which represents the simultaneous measurement of location and orientation anisotropies through the six-dimensional posterior on the components of $\dip{N}$ and $\dip{J}$.
 The result is fully consistent with both kinds of isotropy, with $\dip{N} = 0$ and $\dip{J} = 0$ supported with high credibility, falling close to the peak of the distributions on the \clN and \clJ quantiles respectively;%
 \footnote{These three-dimensional quantiles correspond to the fraction of $\dip{J/N}$ samples with higher probability density than the origin.}
-% \vv{I don't know what is normal here. How about also listing those numbers for the prior?}
- this is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
+ this feature is also reflected in the fact that the origin is well supported in all the panels of the corner plot in Fig.~\ref{fig:jn_corner}.
 (Recall that the prior does not treat the origin as a special point per Appendix \ref{app:prior}.)
 The result for $\dip{N}$ is consistent with previous studies \cite{Essick:2022slj}, which did not find evidence against isotropy in the location of LIGO-Virgo sources.
 
 To the extent that there is any support for nonzero dipolar contributions to the location or orientation densities (namely, for $|\dip{J/N}| > 0$), their possible directions in the sky are represented by the insets on the top right of Fig.~\ref{fig:jn_corner}: a higher density of points indicates an allowed orientation for the $\dip{N}$ (top) or $\dip{J}$ (bottom) dipole vectors, with color encoding the magnitude of the dipole.
 These skymaps reveal that the data are not in conflict with the existence of a weak dipole along the vernal equinox in the celestial equatorial plane (the direction of the $x$ axis in our Cartesian coordinate system), as implied by the marginal on $\dip{J,x}$ in Fig.~\ref{fig:jn_corner}; this dipole is allowed, but not required, by the data, since the posterior is fully consistent with $\dip{J} = 0$.
 
-\begin{figure*}[hbt!]
+Indeed, although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
+In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=\vec{0}$ is the underlying truth.%
+\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
+
+\begin{figure*}
 \subfloat[][$\dip{J}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_j.pdf}}
 \subfloat[][$\dip{N}$ posterior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_n.pdf}}
 \subfloat[][prior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_prior.pdf}}
@@ -276,22 +285,6 @@ The posteriors are tighter with respect to the prior, as is also seen in Fig.~\r
 \script{density_3d_plot.py}
 \end{figure*}
 
-Indeed, although inhomogeneities appear in these Mollweide projections, this should not be interpreted as evidence for anisotropies: the density of points in those maps only encodes \emph{permissible} directions for the dipole, without implications for its magnitude.
-In fact, inhomogeneities will appear in such plots any time the posterior does not happen to peak exactly at the three-dimensional origin of $\dip{J/N}$, as we expect to be commonly the case even if $\dip{J/N}=0$ is the underlying truth.%
-\footnote{With a finite number of events in the catalog, even if $\dip{J/N}$ is zero in truth, the maximum-likelihood estimate will not, in general, be zero.  The posterior will therefore peak away from zero (but be fully consistent with zero).  In this situation inhomogeneity can appear as in Fig.\ \ref{fig:jn_corner}.}
-
-In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
-Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior, indicating that the data are informative.
-The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{N}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
-The stronger tightening in the $\dip{N}$ distribution is a consequence of $\hat{N}$ being better constrained than $\hat{J}$ in individual events.
-
-
-We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
-However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
-\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small.  Any density in $\dip{J/N}$ that is finite at the origin will produce a density on $\left| \dip{J/N} \right|$ that behaves as $\left| \dip{J/N} \right|^2$ near the origin.}
-Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin due to the reduced prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
-With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
-
 \begin{figure}
 \includegraphics[width=0.9\columnwidth]{figures/jn_norm.pdf}
 \caption{\emph{Posterior on dipole magnitudes.} The measurement of Fig.~\ref{fig:jn_corner} translated into one-dimensional posteriors on the $|\dip{J}|$ (blue) and $|\dip{N}|$ (orange) magnitudes.
@@ -301,12 +294,25 @@ These are shifted rightward with respect to the implied prior (gray), which itse
 \script{norm_plot.py}
 \end{figure}
 
+In Fig.~\ref{fig:density_3d}, we provide an additional representation of this posterior projected onto the three-dimensional spaces of $\dip{J}$ and $\dip{N}$; we also present the prior for comparison.
+Large dipolar contributions are disfavored by the posterior in all cases, and the posterior distributions are more concentrated than the prior, indicating that the data are informative.
+The posterior standard deviations for the three Cartesian components of $\dip{J}$ and $\dip{N}$ are smaller by $\{\varimpJx, \varimpJy, \varimpJz\}$ and $\{\varimpNx, \varimpNy, \varimpNz\}$ respectively with respect to the prior.
+The stronger tightening in the $\dip{N}$ distribution is a consequence of $\hat{N}$ being better constrained than $\hat{J}$ in individual events.
+Figure \ref{fig:density_3d} again makes it apparent that data disfavor certain directions for the $\dip{J}$ dipole (towards the positive-$x$ quadrants, away from the vernal equinox).
+
+We may translate the result in Fig.~\ref{fig:jn_corner} into a posterior on the magnitudes $|\dip{J/N}|$ of the dipole components, as we do in Fig.~\ref{fig:jn_norm}.
+However, the one-dimensional posteriors on these quantities is heavily dominated by the dimensionality of the problem, which results in a Jacobian disfavoring small values of $|\dip{J/N}|$ due to the limited phase space near $\dip{J}=0$ or $\dip{N} = 0$.%
+\footnote{In other words, although the probability density is high near the origin, this is outweighed by the greater volume found far away, so that the overall probability of finding $\dip{J/N}=0$ is small.  Any density in $\dip{J/N}$ that is finite at the origin will produce a density on $\left| \dip{J/N} \right|$ that behaves as $\left| \dip{J/N} \right|^2$ near the origin.}
+Therefore, even though our three-dimensional prior does not treat $\dip{J/N} = 0$ as a special point (Appendix \ref{app:prior}), the effective prior induced on the magnitudes heavily disfavors the origin in $\left| \dip{J/N} \right|$ due to the reduced available prior volume (gray curve in Fig.~\ref{fig:jn_norm}); that explains why the posteriors in Fig.~\ref{fig:jn_norm} themselves appear to disfavor $|\dip{J/N}| = 0$.
+With that in mind, the influence of the data can be seen in the leftward shift of the $|\dip{J/N}|$ distributions with respect to the prior; this is effect is more pronounced for $\dip{N}$, which is a consequence of the fact that $\vec{N}$ is generally better measured than $\vec{J}$.
+Although the shift in $|\dip{J}|$ is slight, the data \emph{are} informative about $\dip{J}$---constraining some of its possible orientations (Figs.~\ref{fig:jn_corner} and \ref{fig:density_3d}), if not its overall magnitude.
+
 \section{Validation}
 \label{sec:validation}
 
 In this section, we contextualize the above measurement by studying simulated datasets in which $\hat{J}$ and $\hat{N}$ are isotropically distributed.
 This allows us to both validate our setup and gauge the sensitivity of our measurement.
-We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections (Sec.~\ref{sec:validation:isotropized}); second, by testing our infrastructure on set of injections used to evaluate our selection function (Sec.~\ref{sec:validation:selection}).
+We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections (Sec.~\ref{sec:validation:isotropized}); second, by testing our infrastructure on set of injections used to evaluate the selection function of the instruments (Sec.~\ref{sec:validation:selection}).
 
 \subsection{Isotropized measurements}
 \label{sec:validation:isotropized}
@@ -316,18 +322,19 @@ By doing this multiple times, we can generate synthetic collections of measureme
 Through this exercise, we can estimate the number of events at current precision required to constrain $\dip{J/N}$ to any given degree: as we increase the number of simulated events, we expect our analysis to constrain the magnitude of $\dip{J/N}$ with increasing certainty towards zero.
 Here we do not factor the effect of sensitivity improvements, which would make future measurements more precise; therefore, this does not represent a realistic forecast, but a worst-case scenario projection.
 
-We apply the above procedure starting from a collection of \Nevents isotropized events generated by randomizing each of the \Nevents in our dataset once, as described above; we then progressively double the size of this synthetic catalog a number of times times, producing as many randomizations of our initial set as needed to obtain the desired catalog size.
+We apply the above procedure starting from a collection of \Nevents isotropized events generated by randomizing each of the events in our dataset once, as described above; we then progressively double the size of this synthetic catalog a number of times times, producing as many randomizations of our initial set as needed to obtain the desired catalog size.
 As the number of synthetic events increases, we expect the hierarchical analysis to more confidently conclude $\dip{J/N} = \vec{0}$.
 
 We show the result for $\dip{J}$ in Fig.~\ref{fig:control-iso}.
 As expected, our confidence in $\dip{J/N} = \vec{0}$ increases with the size of the catalog.
-The darkest curve corresponds to a synthetic catalog of equal size as our true set of detections analyzed in Sec.~\ref{sec:result}; we obtain a comparably precise constraint on the components of $\dip{J/N}$.
+The darkest curve corresponds to a synthetic catalog of equal size as our true set of detections analyzed in Sec.~\ref{sec:results}, which yields a comparably precise constraint on the components of $\dip{J/N}$.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{figures/control_isotropized.pdf}
-\caption{\emph{Validation on a synthetic catalog of isotropized detections.}
-Result of hierarchical analyses on synthetic catalogs of increasing size (color), obtained by randomizing the $\hat{J}$ and $\hat{N}$ posteriors of the \Nevents events in Table \ref{tab:events}.
-A lighter color corresponds to a larger catalog.
+\caption{\emph{Validation on synthetic catalogs of isotropized detections.}
+Result of hierarchical analyses on synthetic catalogs of increasing size (color), obtained by repeatedly randomizing the $\hat{J}$ and $\hat{N}$ posteriors of the \Nevents events in Table \ref{tab:events}.
+A lighter color corresponds to a larger catalog: starting with \Nevents events for the darkest color and progressively doubling the catalog size \Niteriso times to reach \Nmaxiso events for the lightest color.
+The hierarchical analysis measures $\dip{J} = \vec{0}$ with growing precision as the size of the catalog increases.
 }
 \label{fig:control-iso}
 \script{plot_control_isotropized.py}
@@ -336,17 +343,20 @@ A lighter color corresponds to a larger catalog.
 \subsection{Injections from selection set}
 \label{sec:validation:selection}
 
-As a second validation of our setup, we simulate catalogs of detections drawn from the injection set used to evaluate the selection function as described in Sec.~\ref{sec:selection} \cite{o3-selection}.
+As a second validation test, we simulate catalogs of detections drawn from the injection set used to evaluate the selection function as described in Sec.~\ref{sec:selection} \cite{o3-selection}.
 For simplicity, we treat the injection parameters as a single sample of a fictitious posterior: the input to our hierarchical analysis is one sample per synthetic event, drawn from the distribution in Sec.~\ref{sec:selection}.
-Since the injection distribution was constructed to be isotropic \cite{o3-selection}, we expect this experiment to indicate $\dip{J/N} = \vec{0}$, with credibility growing with catalog size.
+At each iteration, we double the size of the simulated catalog.
+Since the injection distribution was constructed to be isotropic \cite{o3-selection}, we expect this experiment to indicate $\dip{J/N} = \vec{0}$, with certainty growing with catalog size.
 
-We show the result in Fig.~\ref{fig:control-sel}.
+We show the result in Fig.~\ref{fig:control-sel} for $\dip{J}$ (the result for $\dip{N}$ is similar).
+As expected, $\dip{J/N} = \vec{0}$ is supported with increasing certainty as the synthetic catalog grows.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{figures/control_selection.pdf}
-\caption{\emph{Validation on a synthetic catalog drawn from selection injection set.}
-Result of hierarchical analyses on synthetic catalogs of increasing size (color), obtained by taking draws from the selection-function injection set (Sec.~\ref{sec:selection}) as a single sample from the $\hat{J}$ and $\hat{N}$ posterior of a synthetic event.
-A lighter color corresponds to a larger catalog.
+\caption{\emph{Validation on synthetic catalogs drawn from selection injection set.}
+Result of hierarchical analyses on synthetic catalogs of increasing size (color), obtained by taking draws from the injection set used to evaluate the selection function (Sec.~\ref{sec:selection}) and using them a single samples from the $\hat{J}$ and $\hat{N}$ posterior of synthetic events.
+A lighter color corresponds to a larger catalog: starting with \Nstartsel events for the darkest color and progressively doubling the catalog size \Nitersel times to reach \Nmaxsel events for the lightest color.
+The hierarchical analysis measures $\dip{J} = \vec{0}$ with growing precision as the size of the catalog increases.
 }
 \label{fig:control-sel}
 \script{plot_control_selection.py}
@@ -355,12 +365,14 @@ A lighter color corresponds to a larger catalog.
 \section{Conclusion}
 \label{sec:conclusion}
 
-We have demonstrated a measurement constraining the potential alignment of the total angular momenta of \acp{BBH} detected by LIGO and Virgo, using \Nevents detections from their third observing run and properly accounting for selection effects.
+We have demonstrated a measurement constraining the potential alignment of the total angular momenta of \acp{BBH} detected by LIGO and Virgo, using \Nevents detections from their third observing run and duly accounting for selection effects.
 In addition to alignment of momenta, we simultaneously looked for inhomogeneities in the distribution of sources over the sky.
 We found no evidence against isotropy in either the orientation or, consistent with previous works, the location of LIGO-Virgo \acp{BBH}.
+Additionally, we determined that the GWTC-3 data disfavor certain orientations of the potential preferred alignment of angular momenta more than others.
 % Our constraint on the sky location anisotropies is consistent with previous works, although we obtain it by simultaneously allowing for correlations with potential orientation anisotropies.
-Future measurements will improve as the LIGO, Virgo and KAGRA detectors grow in sensitivity, resulting in many more detections at higher signal-to-noise ratios.
-This will enable more precise constraints, as well as the exploration of higher order anisotropies and other interesting effects, like correlations with redshift or, potentially, local correlations in the directions $\hat{N}$ and $\hat{J}$ on the sky.  \wf{too much?}
+
+Future measurements will improve as the LIGO, Virgo and KAGRA detectors grow in sensitivity, resulting in many more detections at higher signal-to-noise ratios, which will result in more precise isotropy constraints.
+The advent of next generation detectors, like Cosmic Explorer \cite{Dwyer:2014fpa,Evans:2016mbw,Reitze:2019iox} or the Einstein Telescope \cite{Punturo:2010zz}, will enable the exploration of higher order anisotropies and other interesting effects, like correlations with redshift or, potentially, local correlations in the directions $\hat{N}$ and $\hat{J}$ on the sky.
 
 \begin{acknowledgments}
 The Flatiron Institute is a division of the Simons Foundation, supported through the generosity of Marilyn and Jim Simons.
@@ -420,6 +432,15 @@ Those components are the input for the hierarchical analysis described in the ma
 \section{Prior in Unconstrained Parameters}
 \label{app:prior}
 
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/prior.pdf}
+\caption{\emph{Prior}. Two-dimensional slice of the Gaussian prior on the components of $\dip{J/N}$ for $\sigma = 0.4$, as used for the analysis in the main paper.
+With this choice, the origin is not disfavored by the three-dimensional prior probability density.
+}
+\label{fig:prior}
+\script{prior_plot.py}
+\end{figure}
+
 Recall that we sample in parameters $\dipraw{N/J}$ defined by 
 \begin{equation}
   \dipraw{N/J} = \frac{\dip{N/J}}{\sqrt{1 - \dip{N/J} \cdot \dip{N/J}}}
@@ -444,15 +465,6 @@ origin.  With the desire to be uninformative about the typical scale of the comp
 while keeping the maximum prior density at the origin, we choose $\sigma = 0.4 <
 1/\sqrt{5}$ for the analysis in this paper.
 A two-dimensional slice of the prior on the components of $\dip{N/J}$ for this choice is illustrated in Fig.~\ref{fig:prior}.
-
-\begin{figure}
-\includegraphics[width=\columnwidth]{figures/prior.pdf}
-\caption{\emph{Prior}. Two-dimensional slice of the Gaussian prior on the components of $\dip{J/N}$ for $\sigma = 0.4$, as used for the analysis in the main paper.
-With this choice, the origin is not disfavored by the three-dimensional prior probability density.
-}
-\label{fig:prior}
-\script{prior_plot.py}
-\end{figure}
 
 \section{Direction of total angular momentum for individual events}
 \label{app:skymaps}

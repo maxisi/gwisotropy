@@ -36,15 +36,22 @@ print(f"Loaded: {fname}")
 
 events = sorted(list(vector_dict['n'].keys()))
 
-# pandas gymnastics to get a table with 20 rows and 3 columns,
+nrow = 19
+
+# pandas gymnastics to get a table with `nrow` rows
 # filling missing entries with NaN
 s = pd.Series(events)
-s.index = pd.MultiIndex.from_tuples(s.index.map(lambda x: (x//20, x % 20)))
-s = s.unstack(0)
+s.index = pd.MultiIndex.from_tuples(s.index.map(lambda x: (x//nrow, x % nrow)))
+s = s.unstack(0).style.hide(axis='index').hide(axis='columns').format(na_rep='', escape='latex')
 
 # turn pd.Series into LaTex table
-tex = s.to_latex(index=False, header=False, column_format='rrr', na_rep='',
+tex = s.to_latex(column_format='lcr', hrules=True, 
                  caption="Events considered.", label="tab:events")
+
+# hack to enforce column-width
+tex = tex.replace(r"\begin{tabular}",
+                  r"\resizebox{\columnwidth}{!}{\begin{tabular}")
+tex = tex.replace(r"\end{tabular}", r"\end{tabular}}")
 
 with open(paths.event_table, 'w') as f:
     f.write(tex)

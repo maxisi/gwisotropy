@@ -60,7 +60,7 @@ lkws = dict(ls=':', c='k')
 with sns.axes_style("ticks"):
     pg = sns.PairGrid(df, corner=True)
     pg.map_diag(sns.kdeplot, fill=True)
-    pg.map_lower(sns.kdeplot, fill=True)
+    pg.map_lower(sns.kdeplot, fill=True, thresh=0.1)
     for i, axs in enumerate(pg.axes):
         for j, ax in enumerate(axs):
             if ax:

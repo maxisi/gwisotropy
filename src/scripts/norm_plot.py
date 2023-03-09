@@ -30,7 +30,7 @@ import utils
 import utils.plots
 from utils.prior import draw_prior
 
-sns.set(context='notebook', palette='colorblind')
+sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 
 RNG = np.random.default_rng(12345)
 

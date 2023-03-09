@@ -33,7 +33,7 @@ import h5py
 import pymc as pm
 import os
 
-RNG = np.random.default_rng(12345)
+RNG = np.random.default_rng(123456)
 
 ###############################################################################
 # LOAD PE AND SELECTION VECTORS
@@ -58,15 +58,19 @@ fit_dir = os.path.dirname(fit_path)
 if not os.path.exists(fit_dir):
     os.makedirs(fit_dir)
 
-# number of event number doublings
-niter = 10
+# size of initial catalog
+N = 4
+# number of catalog-size doublings
+niter = 12
 
 print(f"Running {niter} hierarchical fits---this might take a while!")
 
-rolling_fake_vecs_n_stack = RNG.choice(sel_vecs_n_stack).reshape(1,1,3)
-rolling_fake_vecs_j_stack = RNG.choice(sel_vecs_j_stack).reshape(1,1,3)
+rolling_fake_vecs_n_stack = RNG.choice(sel_vecs_n_stack, N).reshape(N,1,3)
+rolling_fake_vecs_j_stack = RNG.choice(sel_vecs_j_stack, N).reshape(N,1,3)
 
 for i in tqdm(range(niter)):
+    if rolling_fake_vecs_n_stack.shape[0] > len(sel_vecs_n_stack):
+        print(f"WARNING: repeated injections! ({niter})")
     model = ui.make_model(rolling_fake_vecs_n_stack, rolling_fake_vecs_j_stack,
                           sel_vecs_n_stack, sel_vecs_j_stack,
                           df_sel_vec.pdrawangle.values, Ndraw)
@@ -80,6 +84,7 @@ for i in tqdm(range(niter)):
 
     # update running list of fake vectors, doubling the number of entries
     N = rolling_fake_vecs_n_stack.shape[0]
+    print(f"Selecting {N} random injections from selection set.")
     fake_vecs_n_stack = RNG.choice(sel_vecs_n_stack, N).reshape(N,1,3)
     fake_vecs_j_stack = RNG.choice(sel_vecs_j_stack, N).reshape(N,1,3)
 

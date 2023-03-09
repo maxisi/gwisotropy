@@ -30,6 +30,7 @@ import arviz as az
 import h5py
 import pymc as pm
 import seaborn as sns
+from glob import glob
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 RNG = np.random.default_rng(12345)
@@ -39,12 +40,11 @@ RNG = np.random.default_rng(12345)
 ###############################################################################
 
 # number of event number doublings
-niter = 5
-
 fit_path = str(paths.data / "control_selection/fit_{}.nc")
-incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(niter)]
+nfits = len(glob(fit_path.format('*')))
+incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(nfits)]
 
-nsamp = 1000
+nsamp = 2000
 keys = [r'$\hat{J}_x$', r'$\hat{J}_y$', r'$\hat{J}_z$']
 
 df = pd.DataFrame()
@@ -59,10 +59,11 @@ for i, fake_fit in enumerate(incr_fits):
 # PLOT
 ###############################################################################
 
+kde_kws = dict(common_norm=False, alpha=0.7)
 g = sns.PairGrid(df, hue='N', diag_sharey=False, corner=True,
                  palette='crest_r')
-g.map_lower(sns.kdeplot, levels=[1-0.9], alpha=0.7)
-g.map_diag(sns.kdeplot, alpha=0.7)
+g.map_lower(sns.kdeplot, levels=1, thresh=0.1, **kde_kws)
+g.map_diag(sns.kdeplot, **kde_kws)
 
 for i, axs in enumerate(g.axes):
     for j, ax in enumerate(axs):

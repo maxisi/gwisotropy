@@ -91,7 +91,7 @@ if not os.path.exists(fit_dir):
     os.makedirs(fit_dir)
 
 # number of event number doublings
-niter = 5
+niter = 6
 
 print(f"Running {niter} hierarchical fits---this might take a while!")
 

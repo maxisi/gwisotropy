@@ -79,7 +79,7 @@ for i in tqdm(range(niter)):
     print(f"Saved: {fname}")
 
     # update running list of fake vectors, doubling the number of entries
-    N = fake_vecs_n_stack.shape[0]
+    N = rolling_fake_vecs_n_stack.shape[0]
     fake_vecs_n_stack = RNG.choice(sel_vecs_n_stack, N).reshape(N,1,3)
     fake_vecs_j_stack = RNG.choice(sel_vecs_j_stack, N).reshape(N,1,3)
 

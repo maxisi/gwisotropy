@@ -86,9 +86,11 @@ We demonstrate how to constrain the degree of alignment of the total angular mom
 binary black holes, looking for a special direction in absolute space that
 would break isotropy. We simultaneously allow for inhomogeneities in the
 distribution of black holes over the sky. Making use of dipolar models for
-the distribution and orientation of the sources, we analyze \Nevents detections from
+the spacial distribution and orientation of the sources, we analyze \Nevents detections from
 the third LIGO-Virgo observing run. Accounting for selection biases, we find
 the population of LIGO-Virgo black holes to be fully consistent with both homogeneity and isotropy.
+We additionally find the data to constrain some directions of alignment more than others, and produce posteriors for the absoulute orientation of the orbits of all binaries in our set.
+All code and data are made publicly available in \url{https://github.com/maxisi/gwisotropy/}.
 \end{abstract}
 
 \maketitle
@@ -143,8 +145,11 @@ The first two panels both have a distribution of inclinations that looks isotrop
 \end{figure*}
 
 In Sec.~\ref{sec:method} we describe the population model we use to constrain anisotropies, as well as the as astrophysical reweighting of masses and redshifts, and our treatment of selection biases.
+In Sec.~\ref{sec:data} we outline the data products used in our analysis.
 We present our results in Sec.~\ref{sec:results}, including constraints on the magnitude of the orientation and location dipoles, as well as maps of their possible directions.
+In Sec.~\ref{sec:validation}, we summarize validation tests of our infrastructure to contextualize our measurement.
 We conclude in Sec.~\ref{sec:conclusion}.
+Appendices show how to obtain posteriors on the angular-momentum direction, discuss hyperparameter prior choices and display posteriors for the angular-momentum direction for all events in our set.
 
 \section{Method}
 \label{sec:method}
@@ -239,7 +244,7 @@ We reweight those samples following the astrophysical population described above
 \variable{output/events.tex}
 
 The six-dimensional posteriors for the components of $\hat{J}$ and $\hat{N}$ for each event are the primary input for our hierarchical isotropy analysis.
-We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \cite{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release.
+We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \cite{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release \cite{repo}.
 The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps already made available by LIGO-Virgo \cite{zenodo:GWTC-2.1,zenodo:GWTC-3}.
 
 \section{Results}
@@ -476,7 +481,7 @@ A darker color corresponds to a direction in the sky with more probability densi
 From these maps, it is clear that not all events are equally informative about $\hat{J}$; better constrained events will tend to dominate our hierarchical measurement.
 
 The skymaps were produced using the \textsc{ligo.skymap} package \cite{skymap,Singer:2016eax,Singer:2016erz}, a set of standard LIGO-Virgo tools for the processing of probability densities over the sphere.
-We make these figures,  corresponding \ac{FITS} files, and code used to generate them, available in our data release.
+We make these figures,  corresponding \ac{FITS} files, and code used to generate them, available in our data release \cite{repo}.
 
 \variable{output/skymaps.tex}
 

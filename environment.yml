@@ -17,6 +17,7 @@ dependencies:
   - pytables
   - parse
   - colorcet
+  - Jinja2
   - pip:
     - matplotlib==3.6
     - aesara-theano-fallback==0.1.0

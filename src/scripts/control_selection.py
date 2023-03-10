@@ -24,6 +24,7 @@
 import paths
 from tqdm import tqdm
 import numpy as np
+import utils
 import utils.transf as ut
 import utils.inference as ui
 import pandas as pd
@@ -59,9 +60,9 @@ if not os.path.exists(fit_dir):
     os.makedirs(fit_dir)
 
 # size of initial catalog
-N = 4
+N = utils.NSTART_SEL
 # number of catalog-size doublings
-niter = 12
+niter = utils.NITER_SEL
 
 print(f"Running {niter} hierarchical fits---this might take a while!")
 

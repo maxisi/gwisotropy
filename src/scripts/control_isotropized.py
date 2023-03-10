@@ -24,6 +24,7 @@
 import paths
 from tqdm import tqdm
 import numpy as np
+import utils
 import utils.transf as ut
 import utils.inference as ui
 import pandas as pd
@@ -33,7 +34,7 @@ import h5py
 import pymc as pm
 import os
 
-RNG = np.random.default_rng(12345)
+RNG = np.random.default_rng(123456)
 
 ###############################################################################
 # LOAD PE AND SELECTION VECTORS
@@ -91,7 +92,7 @@ if not os.path.exists(fit_dir):
     os.makedirs(fit_dir)
 
 # number of event number doublings
-niter = 6
+niter = utils.NITER_ISO
 
 print(f"Running {niter} hierarchical fits---this might take a while!")
 

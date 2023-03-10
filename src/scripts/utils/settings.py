@@ -17,7 +17,7 @@ NSAMP = 2048
 SIGMA_RAW = 0.4
 
 # number of isotropized validation runs
-NITER_ISO = 6
+NITER_ISO = 8
 
 NSTART_SEL = 4
 NITER_SEL = 12

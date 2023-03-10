@@ -89,6 +89,7 @@ rule skymaps:
 rule macros:
     input:
         "src/data/gwisotropy_result.nc",
+        "src/scripts/utils/settings.py",
         "src/data/vectors_bbh.pkl"
     output:
         "src/tex/output/macros.tex"

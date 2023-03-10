@@ -39,13 +39,12 @@ RNG = np.random.default_rng(12345)
 # LOAD FIT RESULTS
 ###############################################################################
 
-# number of event number doublings
 fit_path = str(paths.data / "control_selection/fit_{}.nc")
 nfits = len(glob(fit_path.format('*')))
 incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(nfits)]
 
-nsamp = 2000
-keys = [r'$\hat{J}_x$', r'$\hat{J}_y$', r'$\hat{J}_z$']
+nsamp = 4000
+keys = [r'$\vec{v}_{J,x}$', r'$\vec{v}_{J,y}$', r'$\vec{v}_{J,z}$']
 
 df = pd.DataFrame()
 for i, fake_fit in enumerate(incr_fits):

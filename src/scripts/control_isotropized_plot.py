@@ -40,10 +40,11 @@ RNG = np.random.default_rng(12345)
 ###############################################################################
 
 
-fit_path = str(paths.data / "control_isotropized/fit_*.nc")
-incr_fits = [az.from_netcdf(p) for p in sorted(glob(fit_path))]
+fit_path = str(paths.data / "control_isotropized/fit_{}.nc")
+nfits = len(glob(fit_path.format('*')))
+incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(nfits)]
 
-nsamp = 1000
+nsamp = 4000
 keys = [r'$\vec{v}_{J,x}$', r'$\vec{v}_{J,y}$', r'$\vec{v}_{J,z}$']
 
 df = pd.DataFrame()
@@ -59,10 +60,11 @@ for i, fake_fit in enumerate(incr_fits):
 ###############################################################################
 
 #with sns.axes_style("whitegrid", {"grid.linestyle": ':'}):
+kde_kws = dict(common_norm=False, alpha=0.7)
 g = sns.PairGrid(df, hue='N', diag_sharey=False, corner=True,
              palette='crest_r')
-g.map_lower(sns.kdeplot, levels=[1-0.9], alpha=0.7)
-g.map_diag(sns.kdeplot, alpha=0.7)
+g.map_lower(sns.kdeplot, levels=1, thresh=0.1, **kde_kws)
+g.map_diag(sns.kdeplot, **kde_kws)
 
 for i, axs in enumerate(g.axes):
     for j, ax in enumerate(axs):

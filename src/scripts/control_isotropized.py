@@ -34,7 +34,7 @@ import h5py
 import pymc as pm
 import os
 
-RNG = np.random.default_rng(123456)
+RNG = np.random.default_rng(00000)
 
 ###############################################################################
 # LOAD PE AND SELECTION VECTORS
@@ -48,6 +48,11 @@ with open(paths.vectors_bbh, 'rb') as f:
 
 bbh_vecs_n_stack = np.stack(list(vector_dict_bbh['n'].values()))
 bbh_vecs_j_stack = np.stack(list(vector_dict_bbh['j'].values()))
+
+nsamp = 200
+idxs = RNG.choice(bbh_vecs_n_stack.shape[1], nsamp)
+bbh_vecs_n_stack = bbh_vecs_n_stack[:,idxs,:]
+bbh_vecs_j_stack = bbh_vecs_j_stack[:,idxs,:]
 
 # -----------------------------------------------------------------------------
 # retrieve location and orientation vectors for detected injections
@@ -96,27 +101,45 @@ niter = utils.NITER_ISO
 
 print(f"Running {niter} hierarchical fits---this might take a while!")
 
+rolling_fake_vecs_n_stack = random_shift(bbh_vecs_n_stack)
+rolling_fake_vecs_j_stack = random_shift(bbh_vecs_j_stack)
+
+# optionally (if niter_start > 0) start from a larger catalog
+niter_start = 0
+for i in tqdm(range(niter_start)):
+    # create new stack of same length as current stack
+    fake_vecs_n_stack = random_shift(rolling_fake_vecs_n_stack)
+    fake_vecs_j_stack = random_shift(rolling_fake_vecs_j_stack)
+
+    # append to running stack, doubling the number of events
+    rolling_fake_vecs_n_stack = np.concatenate([rolling_fake_vecs_n_stack,
+                                                fake_vecs_n_stack])
+    rolling_fake_vecs_j_stack = np.concatenate([rolling_fake_vecs_j_stack,
+                                                fake_vecs_j_stack])
+
 for i in tqdm(range(niter)):
-    if i == 0:
-        rolling_fake_vecs_n_stack = random_shift(bbh_vecs_n_stack)
-        rolling_fake_vecs_j_stack = random_shift(bbh_vecs_j_stack)
-    else:
-        # create new stack of same length as current stack
-        fake_vecs_n_stack = random_shift(rolling_fake_vecs_n_stack)
-        fake_vecs_j_stack = random_shift(rolling_fake_vecs_j_stack)
+    rolling_fake_vecs_n_stack = random_shift(rolling_fake_vecs_n_stack)
+    rolling_fake_vecs_j_stack = random_shift(rolling_fake_vecs_j_stack)
 
-        # append to running stack, doubling the number of events
-        rolling_fake_vecs_n_stack = np.concatenate([rolling_fake_vecs_n_stack,
-                                                    fake_vecs_n_stack])
-        rolling_fake_vecs_j_stack = np.concatenate([rolling_fake_vecs_j_stack,
-                                                    fake_vecs_j_stack])
-
+    # run model with current vector stack
     model = ui.make_model(rolling_fake_vecs_n_stack, rolling_fake_vecs_j_stack,
                           sel_vecs_n_stack, sel_vecs_j_stack,
                           df_sel_vec.pdrawangle.values, Ndraw)
-
     with model:
         f = az.convert_to_inference_data(pm.sample())
     fname = fit_path.format(i)
     f.to_netcdf(fname)
     print(f"Saved: {fname}")
+
+    # create new stack of same length as current stack
+    fake_vecs_n_stack = random_shift(rolling_fake_vecs_n_stack)
+    fake_vecs_j_stack = random_shift(rolling_fake_vecs_j_stack)
+
+    # append to running stack, doubling the number of events
+    rolling_fake_vecs_n_stack = np.concatenate([rolling_fake_vecs_n_stack,
+                                                fake_vecs_n_stack])
+    rolling_fake_vecs_j_stack = np.concatenate([rolling_fake_vecs_j_stack,
+                                                fake_vecs_j_stack])
+
+with open(paths.data / "rolling_fake_vecs_j_stack.pkl", 'wb') as f:
+    pkl.dump(rolling_fake_vecs_j_stack, f)

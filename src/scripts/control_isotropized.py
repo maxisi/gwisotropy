@@ -127,7 +127,9 @@ for i in tqdm(range(niter)):
                           df_sel_vec.pdrawangle.values, Ndraw)
     with model:
         f = az.convert_to_inference_data(pm.sample())
-    fname = fit_path.format(i)
+
+    nvec = len(rolling_fake_vecs_n_stack)
+    fname = fit_path.format(nvec)
     f.to_netcdf(fname)
     print(f"Saved: {fname}")
 
@@ -141,5 +143,3 @@ for i in tqdm(range(niter)):
     rolling_fake_vecs_j_stack = np.concatenate([rolling_fake_vecs_j_stack,
                                                 fake_vecs_j_stack])
 
-with open(paths.data / "rolling_fake_vecs_j_stack.pkl", 'wb') as f:
-    pkl.dump(rolling_fake_vecs_j_stack, f)

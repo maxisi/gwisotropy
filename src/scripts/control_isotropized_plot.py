@@ -31,6 +31,7 @@ import h5py
 import pymc as pm
 import seaborn as sns
 from glob import glob
+from parse import parse
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 RNG = np.random.default_rng(12345)
@@ -39,10 +40,10 @@ RNG = np.random.default_rng(12345)
 # LOAD FIT RESULTS
 ###############################################################################
 
-
+# load fits in order of number of vectors in simulated catalog
 fit_path = str(paths.data / "control_isotropized/fit_{}.nc")
-nfits = len(glob(fit_path.format('*')))
-incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(nfits)]
+nvecs = sorted([int(parse(fit_path, p)[0]) for p in glob(fit_path.format('*'))])
+incr_fits = [az.from_netcdf(fit_path.format(n)) for n in nvecs]
 
 nsamp = 4000
 keys = [r'$\vec{v}_{J,x}$', r'$\vec{v}_{J,y}$', r'$\vec{v}_{J,z}$']

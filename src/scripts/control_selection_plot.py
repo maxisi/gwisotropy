@@ -31,6 +31,7 @@ import h5py
 import pymc as pm
 import seaborn as sns
 from glob import glob
+import matplotlib.pyplot as plt
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 RNG = np.random.default_rng(12345)
@@ -59,8 +60,8 @@ for i, fake_fit in enumerate(incr_fits):
 ###############################################################################
 
 kde_kws = dict(common_norm=False, alpha=0.7)
-g = sns.PairGrid(df, hue='N', diag_sharey=False, corner=True,
-                 palette='crest_r')
+cmap = 'crest_r'
+g = sns.PairGrid(df, hue='N', diag_sharey=False, corner=True, palette=cmap)
 g.map_lower(sns.kdeplot, levels=1, thresh=0.1, **kde_kws)
 g.map_diag(sns.kdeplot, **kde_kws)
 
@@ -74,6 +75,28 @@ for i, axs in enumerate(g.axes):
                 ax.set_ylim(-1, 1)
                 if j == 0:
                     ax.set_yticks([-1, 0, 1])
+
+# add colorbar
+sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=min(df['N']),
+                                                         vmax=max(df['N'])))
+plt.colorbar(sm, ax=g.axes[0,0])
+
+# add norm inset
+ax0 = g.axes[0,0]
+ax1 = g.axes[-1,-1]
+ax = g.fig.add_axes([ax1.get_position().x0, ax0.get_position().y0,
+                     ax0.get_position().width, ax0.get_position().height])
+
+df['norm'] = np.linalg.norm([df[k] for k in keys], axis=0)
+sns.kdeplot(data=df[['norm', 'N']], x='norm', hue='N', ax=ax, palette=cmap,
+            common_norm=False)
+
+ax.get_legend().remove()
+ax.set_xlabel(r"$|\vec{v}_J|$")
+ax.set_ylabel('')
+ax.get_yaxis().set_visible(False)
+ax.set_xlim(0, 1)
+
 
 fname = paths.figures / "control_selection.pdf"
 g.fig.savefig(fname, bbox_inches="tight")

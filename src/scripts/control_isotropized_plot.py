@@ -85,13 +85,16 @@ for i, axs in enumerate(g.axes):
                 if j == 0:
                     ax.set_yticks([-1, 0, 1])
 
+# add norm inset
 ax0 = g.axes[0,0]
 ax1 = g.axes[-1,-1]
 ax = g.fig.add_axes([ax1.get_position().x0, ax0.get_position().y0,
                      ax0.get_position().width, ax0.get_position().height])
+
 df['norm'] = np.linalg.norm([df[k] for k in keys], axis=0)
-df_norm = df[['norm', 'N']]
-sns.kdeplot(data=df_norm, x='norm', hue='N', ax=ax, palette=cmap, common_norm=False)
+sns.kdeplot(data=df[['norm', 'N']], x='norm', hue='N', ax=ax, palette=cmap,
+            common_norm=False)
+
 ax.get_legend().remove()
 ax.set_xlabel(r"$|\vec{v}_J|$")
 ax.set_ylabel('')

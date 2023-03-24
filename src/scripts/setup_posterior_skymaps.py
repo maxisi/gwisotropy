@@ -93,7 +93,7 @@ with open(paths.data / "fits/DipoleFitsTaskFile", 'w') as f:
 figdir = paths.static
 os.makedirs(figdir, exist_ok=True)
 
-l = "ligo-skymap-plot %s/skymap_j_{key}.fits.gz -o %s/skymap_j_{key}.{ext} --figure-height 4 --colormap viridis &> %s_{ext}.log" % (fitsdir, figdir, logpath)
+l = "ligo-skymap-plot %s/dipole_skymap_{key}.fits.gz -o %s/dipole_skymap_{key}.{ext} --figure-height 4 --colormap viridis &> %s_{ext}.log" % (fitsdir, figdir, logpath)
 
 lines = [l.format(key=k, ext='png') for k in 'nj']
 with open(paths.data / "fits/PlotDipoleFitsTaskFile", 'w') as f:

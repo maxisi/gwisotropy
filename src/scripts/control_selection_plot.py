@@ -32,6 +32,7 @@ import pymc as pm
 import seaborn as sns
 from glob import glob
 import matplotlib.pyplot as plt
+import utils.settings
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 RNG = np.random.default_rng(12345)
@@ -76,10 +77,22 @@ for i, axs in enumerate(g.axes):
                 if j == 0:
                     ax.set_yticks([-1, 0, 1])
 
+# backtrack number of detections per iteration
+nstart = utils.settings.NSTART_SEL
+niter = utils.settings.NITER_SEL
+ns = [nstart*2**i for i in range(niter)]
+
 # add colorbar
-sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=min(df['N']),
-                                                         vmax=max(df['N'])))
-plt.colorbar(sm, ax=g.axes[0,0])
+norm = plt.Normalize(vmin=min(ns), vmax=max(ns))
+sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+
+cax = g.fig.add_axes([g.axes[1,1].get_position().x0,
+                      g.axes[0,0].get_position().y0,
+                      g.axes[0,0].get_position().width*0.1,
+                      g.axes[0,0].get_position().height])
+plt.colorbar(sm, cax=cax, orientation='vertical')
+yt = cax.get_yticks()
+cax.set_yticklabels([f'$N = {n:.0f}$' for n in yt], fontsize=14)
 
 # add norm inset
 ax0 = g.axes[0,0]

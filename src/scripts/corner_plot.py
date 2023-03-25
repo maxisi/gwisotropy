@@ -73,18 +73,18 @@ with sns.axes_style("ticks"):
 
 akws = dict(arrowstyle="->", color=sns.color_palette()[0], alpha=0.3, lw=2.5)
 
-axins = pg.axes[1,1].inset_axes([3.45, 0.5, 4, 2])
+axins = pg.axes[1,1].inset_axes([3.45, 0.5, 3, 1.5])
 arr_img = plt.imread(paths.static / "dipole_skymap_n.png")
 axins.imshow(arr_img)
-axins.set_title(r"$\hat{v}_N$", pad=-20)
+axins.set_title(r"$\hat{v}_N$", pad=-10)
 axins.axis('off')
 axins.annotate("", xy=(-0.75, 0.5), xytext=(-0.25, 0.5),
                arrowprops=akws, xycoords='axes fraction')
 
-axins = pg.axes[4,4].inset_axes([-0.25, 2, 4, 2])
+axins = pg.axes[4,4].inset_axes([-0.25, 2, 3, 1.5])
 arr_img = plt.imread(paths.static / "dipole_skymap_j.png")
 axins.imshow(arr_img)
-axins.set_title(r"$\hat{v}_J$", pad=-20)
+axins.set_title(r"$\hat{v}_J$", pad=-10)
 axins.axis('off')
 axins.annotate("", xy=(0.5, -0.75), xytext=(0.5, -0.25),
            arrowprops=akws, xycoords='axes fraction')

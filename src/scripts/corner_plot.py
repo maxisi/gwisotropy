@@ -25,13 +25,10 @@ import paths
 from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
-import utils.plots
 import pandas as pd
 import arviz as az
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
-from matplotlib.figure import Figure
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 

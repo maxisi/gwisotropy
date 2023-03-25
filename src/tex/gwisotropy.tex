@@ -177,7 +177,7 @@ for the right ascension $\alpha$ and declination $\delta$; meanwhile, the orient
 \vec{J} = \vec{L} + \vec{S}_1 + \vec{S}_2 \, ,
 \end{equation}
 for the orbital angular momentum $\vec{L}$ and individual (dimensionful) \ac{BH} spin angular momenta $\vec{S}_{1/2}$.
-The Cartesian components of $\hat{J}$ can be computed in the above frame as a function of $\alpha$, $\delta$, and the polarization angle $\psi$ \cite{Isi:2022mbx}, as well as the component masses $m_{1/2}$, the dimensionless spin vectors $\vec{\chi}_{1/2}$ and the orbital phase $\phi_{\rm ref}$ at some reference frequency $f_{\rm ref}$; we outline this calculation in Appendix \ref{app:j}.
+The Cartesian components of $\hat{J}$ can be computed in the above frame as a function of $\alpha$, $\delta$, and the polarization angle $\psi$ \cite{Isi:2022mbx}, as well as the component masses $m_{1/2}$, the dimensionless spin vectors $\vec{\chi}_{1/2}$ and the orbital phase $\phi_{\rm ref}$ at some reference frequency $f_{\rm ref}$; we outline this calculation in Appendix \ref{app:j} and release relevant code in \cite{repo}.
 We prefer to work with $\hat{J}$ rather than $\hat{L}$ because the former is conserved over the coalescence to a high degree, even for precessing systems \cite{poisson2014gravity}.
 
 Our goal is to quantify the degree of isotropy in $\hat{N}$ and $\hat{J}$.
@@ -259,7 +259,7 @@ The equivalent figures for $\hat{N}$ are nothing but the sky-localization maps a
 \caption{\emph{Isotropy measurement.} Result of the simultaneous measurement of location and orientation isotropy through the model in Eq.~\eqref{eq:lnlike}, as represented by the posterior distribution on the dipole vectors $\dip{N/J}$ (corner plot), and the corresponding projections over the sky (Mollweide insets).
 The six-dimensional posterior distribution is represented through credible levels over two-dimensional slices (blue contours, spaced at intervals corresponding to 10\% increments in probability mass, with the outer contour enclosing 90\% of the probability), and one-dimensional marginals (diagonal).
 The upper-left and lower-right sub-corners encode constraints on the individual components of each $\dip{N}$ and $\dip{J}$ respectively (highlighted with vertical and horizontal lines in the margin), while the other panels encode potential correlations between the location and orientation inisotropies.
-The measurements for $\dip{N/J}$ can be projected into distribution over the sky as in the top-right insets, where each dot marks the direction in celestial coordinates of one sample drawn from the $\dip{N}$ (top) or $\dip{J}$ (bottom) distributions, with color encoding the magnitude of the vector; inhomogeneities in these sky-maps do not constitute evidence for anisotropies.
+The measurements for $\dip{N/J}$ can be projected into distribution over the sky as in the top-right insets, which show the allowed dipole orientations for $\hat{v}_N \equiv \vec{v}_N / |\vec{v}_N|$ (top) or $\hat{v}_J \equiv \vec{v}_J / |\vec{v}_J|$ (bottom), with color encoding probability density over the celestial sphere \cite{skymap,Singer:2016eax,Singer:2016erz}; inhomogeneities in these sky-maps do not constitute evidence for anisotropies.
 Isotropy is recovered for $\dip{N} = \dip{J} = 0$ (dotted lines), which is well supported by the 6D posterior.
 }
 \label{fig:jn_corner}
@@ -361,8 +361,9 @@ As expected, $\dip{J/N} = \vec{0}$ is supported with increasing certainty as the
 \begin{figure}
 \includegraphics[width=\columnwidth]{figures/control_selection.pdf}
 \caption{\emph{Validation on synthetic catalogs drawn from selection injection set.}
-Result of hierarchical analyses on synthetic catalogs of increasing size (color), obtained by taking draws from the injection set used to evaluate the selection function (Sec.~\ref{sec:selection}) and using them a single samples from the $\hat{J}$ and $\hat{N}$ posterior of synthetic events.
-A lighter color corresponds to a larger catalog: starting with \Nstartsel events for the darkest color and progressively doubling the catalog size \Nitersel times to reach \Nmaxsel events for the lightest color.
+Result of hierarchical analyses on synthetic catalogs of increasing size $N$ (color), obtained by taking draws from the injection set used to evaluate the selection function (Sec.~\ref{sec:selection}) and using them as single samples from the $\hat{J}$ and $\hat{N}$ posterior of synthetic events.
+We show the posterior on the components of $\dip{J}$ (main corner), and the implied posterior on the magnitude $|\dip{J}|$ (upper right).
+A lighter color corresponds to a larger catalog: starting with $N = \Nstartsel$ events for the darkest color and progressively doubling the catalog size \Nitersel times to reach $N = \Nmaxsel$ events for the lightest color.
 The hierarchical analysis measures $\dip{J} = \vec{0}$ with growing precision as the size of the catalog increases.
 }
 \label{fig:control-sel}
@@ -489,7 +490,7 @@ A darker color corresponds to a direction in the sky with more probability densi
 From these maps, it is clear that not all events are equally informative about $\hat{J}$; better constrained events will tend to dominate our hierarchical measurement.
 
 The skymaps were produced using the \textsc{ligo.skymap} package \cite{skymap,Singer:2016eax,Singer:2016erz}, a set of standard LIGO-Virgo tools for the processing of probability densities over the sphere.
-We make these figures,  corresponding \ac{FITS} files, and code used to generate them, available in our data release \cite{repo}.
+We make these figures, corresponding \ac{FITS} files, and code used to generate them, available in our data release \cite{repo}.
 
 \variable{output/skymaps.tex}
 

@@ -34,6 +34,8 @@ datasets:
 dependencies:
   src/scripts/corner_plot.py:
     - src/data/gwisotropy_result.nc
+    - src/static/dipole_skymap_j.png
+    - src/static/dipole_skymap_n.png
   src/scripts/density_3d_plot.py:
     - src/data/gwisotropy_result.nc
   src/scripts/norm_plot.py:

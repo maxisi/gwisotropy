@@ -30,6 +30,8 @@ import pandas as pd
 import arviz as az
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
+from matplotlib.figure import Figure
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 sns.set(context='notebook', palette='colorblind', font_scale=1.5)
 
@@ -89,6 +91,11 @@ with sns.axes_style("whitegrid", {"grid.linestyle": ':'}):
     utils.plots.add_colorbar(axins, key='J', cmap=sky_kws['cmap']);
     axins.annotate("", xy=(0.5, -0.75), xytext=(0.5, -0.25),
                arrowprops=akws, xycoords='axes fraction')
+
+arr_img = plt.imread(paths.static / "dipole_skymap_j.png")
+im = OffsetImage(arr_img, zoom=.45)
+ab = AnnotationBbox(im, (1, 0), xycoords='axes fraction', box_alignment=(1.1,-0.1))
+axins.add_artist(ab)
 
 xys = [([-0.02, -0.02], [0.52, 0.95]), ([0.52, 1], [0, 0])]
 lines = [Line2D(x, y, lw=5., alpha=0.3, figure=pg.fig, transform=pg.fig.transFigure,

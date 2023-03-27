@@ -40,8 +40,8 @@ dependencies:
     - src/data/gwisotropy_result.nc
   src/scripts/norm_plot.py:
     - src/data/gwisotropy_result.nc
-  # src/tex/ms.tex:
-  #   - src/tex/stylesheet.tex
+  src/tex/gwisotropy.tex:
+    - src/tex/output/macros.tex
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: gwisotropy

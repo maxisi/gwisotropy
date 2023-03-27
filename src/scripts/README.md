@@ -66,6 +66,7 @@ graph TD;
     plot_control_selection.py --> CSELPLOT{{control_selection.pdf}}:::fig;
     CSELPLOT --> M;
     SKYALL[/setup_event_skymaps.py/] -.-> SMAPS{{skymap_j_*.pdf}}:::fig
+    D -.-> SKYALL;
     SMAPS --> s>skymaps.tex];
     make_skymap_figure.py --> s;
     s --> M;

@@ -111,40 +111,31 @@ All code and data are made publicly available in \url{https://github.com/maxisi/
 \label{sec:intro}
 
 With the increasing number of \acp{BBH} detected by LIGO \cite{TheLIGOScientific:2014jea} and Virgo \cite{TheVirgo:2014hva}, it has become possible to study the distribution of such \ac{GW} sources over time and space \cite{LIGOScientific:2021psn,Fishbach:2018edt,Fishbach:2021yvy,Stiskalek:2020wbj,Payne:2020pmc,Cavaglia:2020fnc,Essick:2022slj}.
-% Vijay suggested "large" instead of "nonneglibile" but I'm keeping
-% "nonnegligible" because "large" sounds more subjective to me: is z=2 really
-% large? for us yes, but not for other astronomers.
 Since \acp{BBH} can be detected up to nonnegligible redshifts (currently, $\lesssim 1$), we expect their distribution at large scales to reflect the homogeneity and isotropy that characterize the universe cosmologically---a departure from that expectation would reveal a major shortcoming in our understanding of the detection biases affecting the LIGO-Virgo instruments, or, more tantalizingly, point to fundamentally new physics or astrophysics.
- \mi{should say something about smaller scale structures?}
+ %\mi{should say something about smaller scale structures?}
 
 The homogeneity \cite{Stiskalek:2020wbj,Payne:2020pmc,Cavaglia:2020fnc,Essick:2022slj} and isotropy \cite{Vitale:2022pmu} of \acp{BBH} have been studied before under different frameworks.
 In this work, we reconsider the problem from a new point of view by quantifying the degree of alignment of the \ac{BBH} orbits; in other words, we ask the question: could the total angular momentum vectors of LIGO-Virgo \acp{BBH} be preferentially aligned with a special direction in space?
 We consider this possibility as we simultaneously search for angular inhomogeneities in the spatial distribution of sources, thus constraining the existence of special directions controlling both the alignment and location of \acp{BBH}.
 
 Unlike previous studies, we look for a breaking of isotropy in the angular momenta through the existence of a special direction in space with reference to some absolute frame, like the cosmic microwave background or far away stars (Fig.~\ref{fig:vectors}, second panel), and not with respect to Earth.
-The discovery of such a special direction could reveal the presence of a vector field breaking Lorentz symmetry \mi{I'm spitballing here} \vv{To spitball more, you could mention specific theories like Einstein-Aether?}.
+The discovery of such a special direction could reveal the presence of a vector field breaking Lorentz symmetry.
 This differs from previous works like Ref.~\cite{Vitale:2022pmu}, which checked for anomalies in the alignment of sources with respect to Earth, as reflected in the distribution of \ac{BBH} inclinations relative to the line of sight (Fig.~\ref{fig:vectors}, third panel).
 Such studies are not sensitive to the kind of overall alignment in absolute space that we look for here.
-% While it is conceivable (if fanciful) to imagine a physical process that results in this sort of overall alignment relative to an absolute reference, a 
 
-\mi{Will, add something about isotropy constraints for star binaries / galaxies, or lack thereof?}
+%\mi{Will, add something about isotropy constraints for star binaries / galaxies, or lack thereof?}
 
 
 \begin{figure*}
-% \begin{figure}
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_iso.pdf}
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_dip.pdf}
 \includegraphics[width=0.3\textwidth]{figures/gw_orientation_inc.pdf}
-% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_iso.pdf}
-% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_dip.pdf}
-% \includegraphics[width=0.325\columnwidth]{figures/gw_orientation_inc.pdf}
 \caption{\emph{\ac{BBH} orientation models.} By default, we expect \ac{BBH} angular momenta (arrows) to be oriented randomly with respect to Earth (circle) or each other, reflecting isotropy (first panel).
 In this study, we consider the possibility that \ac{BBH} orbits follow a special direction in space, the extreme of which is full alignment (second panel).
 Previous studies, like Ref.~\cite{Vitale:2022pmu}, have considered models in which binaries are (or are perceived to be) aligned anomalously with respect to Earth, e.g., pointing preferentially towards it (third panel).
 The first two panels both have a distribution of inclinations that looks isotropic to analyses like Ref.~\cite{Vitale:2022pmu}.
 }
 \label{fig:vectors}
-% \end{figure}
 \end{figure*}
 
 In Sec.~\ref{sec:method} we describe the population model we use to constrain anisotropies, as well as our assumptions about the astrophysical distribution of \ac{BBH} properties like masses and redshifts, and our treatment of selection biases.
@@ -190,7 +181,6 @@ Concretely, we implement the following population-level likelihood for each even
 p(\hat{N}_i,\hat{J}_i \mid \dip{N}, \dip{J}) \sim \frac{1}{16 \pi^2}  \hspace{-3pt}\left(1 + \dip{N} \cdot \hat{N}_i\right) \hspace{-3pt} \left(1 + \dip{J} \cdot \hat{J}_i\right) \hspace{-2pt} ,
 \end{equation}
 for some special-direction vectors $\dip{N/J}$, with $0 \leq \left| \dip{N/J} \right| < 1$, to be inferred as hyperparameters from the collection of detections.
-%By simultaneously fitting for $\dip{N}$ and $\dip{J}$, this model allows for correlations between the location and orientation anisotropies.
 The fully isotropic case is recovered for $\dip{N} = \dip{J} = 0$.
 On the other hand, setting $\dip{J} = 0$ alone allows for a nonhomogenous distribution of sources in the sky while assuming isotropic source orientations; this reduces to the ``dipole'' model in \cite{Essick:2022slj}.
 Modeling the likelihood as in Eq.~\eqref{eq:lnlike}, with $\left| \dip{N/J} \right| < 1$, ensures that the likelihood itself remains positive everywhere.

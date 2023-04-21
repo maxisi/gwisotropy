@@ -308,8 +308,10 @@ Although the shift in $|\dip{J}|$ is slight, the data \emph{are} informative abo
 \label{sec:validation}
 
 In this section, we contextualize the above measurement by studying simulated datasets in which $\hat{J}$ and $\hat{N}$ are isotropically distributed.
-This allows us to both validate our setup and gauge the sensitivity of our measurement.
-We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-Virgo detections (Sec.~\ref{sec:validation:isotropized}); second, by testing our infrastructure on set of injections used to evaluate the selection function of the instruments (Sec.~\ref{sec:validation:selection}).
+This allows us to both validate our setup and gauge the sensitivity of our measurement; we do this by testing our infrastructure on set of injections used to evaluate the selection function of the instruments.
+
+Additionally, we evaluate the impact of our assumptions about the distribution of astrophysical parameters. 
+In particular, we consider a model in which  \mi{WIP}
 
 % \subsection{Isotropized measurements}
 % \label{sec:validation:isotropized}
@@ -337,10 +339,10 @@ We do this in two ways: first, by isotropizing our collection of \Nevents LIGO-V
 % \script{plot_control_isotropized.py}
 % \end{figure}
 
-\subsection{Injections from selection set}
-\label{sec:validation:selection}
+% \subsection{Injections from selection set}
+% \label{sec:validation:selection}
 
-As a second validation test, we simulate catalogs of detections drawn from the injection set used to evaluate the selection function as described in Sec.~\ref{sec:selection} \cite{o3-selection}.
+Concretely, we simulate catalogs of detections drawn from the injection set used to evaluate the selection function as described in Sec.~\ref{sec:selection} \cite{o3-selection}.
 For simplicity, we treat the injection parameters as a single sample of a fictitious posterior: the input to our hierarchical analysis is one sample per synthetic event, drawn from the distribution in Sec.~\ref{sec:selection}.
 At each iteration, we double the size of the simulated catalog.
 Since the injection distribution was constructed to be isotropic \cite{o3-selection}, we expect this experiment to indicate $\dip{J/N} = \vec{0}$, with certainty growing with catalog size.

@@ -45,7 +45,7 @@ fit_path = str(paths.data / "control_selection/fit_{}.nc")
 nfits = len(glob(fit_path.format('*')))
 incr_fits = [az.from_netcdf(fit_path.format(i)) for i in range(nfits)]
 
-nsamp = 4000
+nsamp = 2000
 keys = [r'$\vec{v}_{J,x}$', r'$\vec{v}_{J,y}$', r'$\vec{v}_{J,z}$']
 
 df = pd.DataFrame()

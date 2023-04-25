@@ -81,10 +81,6 @@ for k, vs in vdict.items():
 # VALIDATION RUNS
 ###############################################################################
 
-macros.append(r"\renewcommand{\Niteriso}{%i\xspace}" % (utils.NITER_ISO-1))
-nmaxiso = Nevents * 2**(utils.NITER_ISO - 1)
-macros.append(r"\renewcommand{\Nmaxiso}{%i\xspace}" % nmaxiso)
-
 macros.append(r"\renewcommand{\Nitersel}{%i\xspace}" % (utils.NITER_SEL-1))
 macros.append(r"\renewcommand{\Nstartsel}{%i\xspace}" % utils.NSTART_SEL)
 nmaxsel = utils.NSTART_SEL * 2**(utils.NITER_SEL - 1)

@@ -16,8 +16,6 @@ NSAMP = 2048
 # standard deviation of hyperprior
 SIGMA_RAW = 0.4
 
-# number of isotropized validation runs
-NITER_ISO = 6
-
+# number of validation runs
 NSTART_SEL = 4
 NITER_SEL = 12

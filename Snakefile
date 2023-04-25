@@ -95,3 +95,47 @@ rule macros:
         "src/tex/output/macros.tex"
     script:
         "src/scripts/make_macros.py"
+
+rule contrlratesgetlvk:
+    input:
+        "src/data/analyses_PowerLawPeak/analyses/PowerLawPeak/o1o2o3_mass_c_iid_mag_iid_tilt_powerlaw_redshift_result.json"
+    output:
+        "src/data/control_rates_powerlawpeak_map.txt"
+    cache:
+        True
+    script:
+        "src/scripts/control_rates_get_lvk_pop.py"
+
+rule controlratesvectors:
+    input:
+        "src/data/pe_gwosc_o3",
+        "src/data/control_rates_powerlawpeak_map.txt"
+    output:
+        "src/data/control_rates_vectors_bbh.pkl"
+    cache:
+        True
+    script:
+        "src/scripts/control_rates_compute_vectors.py"
+
+rule controlratesselection:
+    input:
+        "src/data/endo3_bbhpop-LIGO-T2100113-v12.hdf5",
+        "src/data/control_rates_powerlawpeak_map.txt"
+    output:
+        "src/data/control_rates_vectors_sel.hdf5"
+    cache:
+        True
+    script:
+        "src/scripts/control_rates_compute_selection.py"
+
+rule controlratesfit:
+    input:
+        "src/data/control_rates_vectors_sel.hdf5",
+        "src/data/control_rates_vectors_bbh.pkl"
+    output:
+        "src/data/control_rates_gwisotropy_result.nc"
+    cache:
+        True
+    script:
+        "src/scripts/control_rates_hierarchical_fit.py"
+

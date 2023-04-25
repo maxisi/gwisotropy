@@ -34,3 +34,10 @@ figures = tex / "figures"
 output = tex / "output"
 event_table = output / "events.tex"
 macros = output / "macros.tex"
+
+# control R&P paths
+rates_json = data / "analyses_PowerLawPeak/analyses/PowerLawPeak/o1o2o3_mass_c_iid_mag_iid_tilt_powerlaw_redshift_result.json"
+rates_ref = data / "control_rates_powerlawpeak_map.txt"
+rates_vectors_bbh = data / "control_rates_vectors_bbh.pkl"
+rates_vectors_sel = data / "control_rates_vectors_sel.hdf5"
+rates_result = data / "control_rates_gwisotropy_result.nc"

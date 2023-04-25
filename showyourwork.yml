@@ -29,6 +29,13 @@ datasets:
     destination: src/data
     contents:
       endo3_bbhpop-LIGO-T2100113-v12.hdf5:
+  10.5281/zenodo.7843926:
+    destination: src/data
+    contents:
+      analyses_PowerLawPeak.tar.gz:
+        analyses:
+          PowerLawPeak:
+            o1o2o3_mass_c_iid_mag_iid_tilt_powerlaw_redshift_result.json:
 
 # Custom file dependencies
 dependencies:
@@ -42,6 +49,8 @@ dependencies:
     - src/data/gwisotropy_result.nc
   src/tex/gwisotropy.tex:
     - src/tex/output/macros.tex
+  src/scripts/control_rates_plot.py:
+    - src/data/control_rates_gwisotropy_result.nc
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: gwisotropy

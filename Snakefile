@@ -35,25 +35,6 @@ rule fit:
     script:
         "src/scripts/hierarchical_fit.py"
 
-rule isotropized:
-    input:
-        "src/data/vectors_sel.hdf5",
-        "src/data/vectors_bbh.pkl"
-    output:
-        directory("src/data/control_isotropized")
-    cache:
-        True
-    script:
-        "src/scripts/control_isotropized.py"
-
-rule isotropizedplot:
-    input:
-        "src/data/control_isotropized"
-    output:
-        "src/tex/figures/control_isotropized.pdf"
-    script:
-        "src/scripts/control_isotropized_plot.py"
-
 rule controlsel:
     input:
         "src/data/vectors_sel.hdf5",

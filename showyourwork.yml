@@ -50,6 +50,7 @@ dependencies:
   src/tex/gwisotropy.tex:
     - src/tex/output/macros.tex
   src/scripts/control_rates_plot.py:
+    - src/data/gwisotropy_result.nc
     - src/data/control_rates_gwisotropy_result.nc
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article

@@ -72,9 +72,9 @@ df = pd.concat([df0, df1], ignore_index=True)
 
 lkws = dict(ls=':', c='k')
 with sns.axes_style("ticks"):
-    pg = sns.PairGrid(df, corner=True, hue='run')
-    pg.map_diag(sns.kdeplot, fill=True)
-    pg.map_lower(sns.kdeplot, fill=True, thresh=0.1)
+    pg = sns.PairGrid(df, corner=True, hue='run', hue_kws={'fill': [True, False]})
+    pg.map_diag(sns.kdeplot)
+    pg.map_lower(sns.kdeplot, thresh=0.1)
     for i, axs in enumerate(pg.axes):
         for j, ax in enumerate(axs):
             if ax:

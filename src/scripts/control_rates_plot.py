@@ -30,7 +30,7 @@ import arviz as az
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.lines import Line2D
 
-sns.set(context='notebook', palette='colorblind', font_scale=1.5)
+sns.set(context='notebook', palette='colorblind', font_scale=2)
 
 RNG = np.random.default_rng(12345)
 
@@ -38,14 +38,6 @@ RNG = np.random.default_rng(12345)
 ###############################################################################
 # LOAD FIT
 ###############################################################################
-
-fit = az.from_netcdf(paths.rates_result)
-
-x = fit.posterior.vN.values
-nhats = x.reshape(np.prod(x.shape[:2]), 3)
-
-x = fit.posterior.vL.values
-jhats = x.reshape(np.prod(x.shape[:2]), 3)
 
 # main result
 fit = az.from_netcdf(paths.result)
@@ -56,6 +48,15 @@ nhats_main = x.reshape(np.prod(x.shape[:2]), 3)
 x = fit.posterior.vL.values
 jhats_main = x.reshape(np.prod(x.shape[:2]), 3)
 
+# control result
+fit = az.from_netcdf(paths.rates_result)
+
+x = fit.posterior.vN.values
+nhats_rates = x.reshape(np.prod(x.shape[:2]), 3)
+
+x = fit.posterior.vL.values
+jhats_rates = x.reshape(np.prod(x.shape[:2]), 3)
+
 ###############################################################################
 # PLOT
 ###############################################################################
@@ -63,18 +64,20 @@ jhats_main = x.reshape(np.prod(x.shape[:2]), 3)
 ckeys = [r'$v_{N,x}$', r'$v_{N,y}$', r'$v_{N,z}$',
          r'$v_{J,x}$', r'$v_{J,y}$', r'$v_{J,z}$']
 df0 = pd.DataFrame(np.hstack((nhats_main, jhats_main)), columns=ckeys)
-df0['run'] = 'main'
+df1 = pd.DataFrame(np.hstack((nhats_rates, jhats_rates)), columns=ckeys)
 
-df1 = pd.DataFrame(np.hstack((nhats, jhats)), columns=ckeys)
-df1['run'] = 'control'
-
-df = pd.concat([df0, df1], ignore_index=True)
-
+c1 = 'k'
 lkws = dict(ls=':', c='k')
 with sns.axes_style("ticks"):
-    pg = sns.PairGrid(df, corner=True, hue='run', hue_kws={'fill': [True, False]})
-    pg.map_diag(sns.kdeplot)
-    pg.map_lower(sns.kdeplot, thresh=0.1)
+    pg = sns.PairGrid(df0, corner=True)#, hue='run', hue_kws={'fill': [True, False]})
+    pg.map_diag(sns.kdeplot, fill=True, common_norm=False)
+    pg.map_lower(sns.kdeplot, fill=True, alpha=0.7, thresh=0.1)
+
+    pg.data = df1
+    pg.map_diag(sns.kdeplot, fill=False, color=c1, common_norm=False)
+    pg.map_lower(sns.kdeplot, fill=False, color=c1, levels=[0.1, 0.5, 0.9],
+                 thresh=0.1)
+
     for i, axs in enumerate(pg.axes):
         for j, ax in enumerate(axs):
             if ax:

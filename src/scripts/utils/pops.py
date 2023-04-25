@@ -130,14 +130,50 @@ def rp_chi_wt(chi1, chi2, refdf):
     return spin_dist.pdf(chi1)*spin_dist.pdf(chi2)
 
 def rp_tilt_wt(costh1, costh2, refdf):
-    # Eq. (B20) in arXiv:2111.03634
+    # Eqs. (14) and (B20) in arXiv:2111.03634
     xi = refdf['xi_spin']
     sigma = refdf['sigma_spin']
     myclip_a, myclip_b = -1, 1
-    a, b = myclip_a/sigma, myclip_b/sigma
-    truncnorm = ss.truncnorm(a=a, b=b, scale=sigma)
-    isotropic = 1/4.
-    return xi*truncnorm.pdf(costh1)*truncnorm.pdf(costh2) + (1-xi)*isotropic
+    loc = 1.
+    a, b = (myclip_a - loc)/sigma, (myclip_b - loc)/sigma
+    truncnorm = ss.truncnorm(a=a, b=b, loc=loc, scale=sigma)
+    wt1 = (1 - xi)/2 + xi*truncnorm.pdf(costh1)
+    wt2 = (1 - xi)/2 + xi*truncnorm.pdf(costh2)
+    return wt1*wt2
+
+def smoothing_f(mp, delta_m):
+		# Eq. (B6) in arXiv:2111.03634
+    return np.exp(delta_m/mp + delta_m/(mp-delta_m))
+
+def smoothing_s(m, mmin, delta_m):
+		# Eq. (B5) in arXiv:2111.03634
+    s = np.ones_like(m)
+    s[m < mmin] = 0.
+    mask = (mmin <= m) & (m < mmin + delta_m)
+    s[mask] = 1./(smoothing_f(m[mask] - mmin, delta_m) + 1)
+    return s 
+
+def rp_mass_wt(m1_src, q, refdf):
+    # Eq. (B4) in arXiv:2111.03634
+    # MASS
+    m1_src = np.atleast_1d(m1_src)
+    q = np.atleast_1d(q)
+    alpha, mmax, mmin, delta_m = refdf['alpha'], refdf['mmax'],\
+                                 refdf['mmin'], refdf['delta_m']
+    # power law
+    power_law_norm = (mmin**(1-alpha) - mmax**(1-alpha))/(alpha-1)
+    power_law = m1_src**(-alpha) / power_law_norm
+    power_law *= np.heaviside(m1_src - mmax, 1)*(1 - refdf['lam'])
+    # Gaussian 
+    gaussian = ss.norm.pdf(m1_src, refdf['mpp'], refdf['sigpp'])
+    gaussian *= refdf['lam']
+    p_m1_src = (power_law + gaussian)*smoothing_s(m1_src, mmin, delta_m)
+
+    # MASS RATIO
+    q_norm = 1./(1 + refdf['beta'])
+    p_q = q**refdf['beta'] * smoothing_s(q*m1_src, mmin, delta_m) / q_norm
+
+    return p_m1_src * p_q
 
 def rp_wt(m1_src, q, z, chi1, chi2, costh1, costh2, refdf=None, m_min=MMIN,
           m_max=MMAX, z_max=ZMAX):
@@ -148,43 +184,13 @@ def rp_wt(m1_src, q, z, chi1, chi2, costh1, costh2, refdf=None, m_min=MMIN,
     z = np.atleast_1d(z)
     mask = (m1_src > m_max) | (m1_src*q < m_min) | (z > z_max) | (z < 0) |\
            (q < 0) | (q > 1)
-    md_wt = md_sfr(z)/m1_src
+    #md_wt = md_sfr(z)/m1_src
+    ## see https://colmtalbot.github.io/gwpopulation/_autosummary/gwpopulation.models.redshift.PowerLawRedshift.html
+    md_wt = rp_mass_wt(m1_src, q, refdf)*(1. + z)**refdf['lamb']
+
     dVdz = np.zeros_like(z)
     dVdz[~mask] = 4*np.pi*cosmo.differential_comoving_volume(z[~mask]).value
     z_wt = dVdz/(1+z)
 
     return spin_wt * md_wt * z_wt
-
-# def smoothing_f(mp, delta_m):
-# 		# Eq. (B6) in arXiv:2111.03634
-#     return np.exp(delta_m/mp + delta_m/(mp-delta_m))
-# 
-# def smoothing_s(m, mmin, delta_m):
-# 		# Eq. (B5) in arXiv:2111.03634
-#     s = np.ones_like(m)
-#     s[m < mmin] = 0.
-#     mask = (mmin <= m) & (m < mmin + delta_m)
-#     s[mask] = 1./(smoothing_f(m[mask] - mmin, delta_m) + 1)
-#     return s 
-# 
-# def rp_mass_wt(m1_src, q, refdf):
-#     # Eq. (B4) in arXiv:2111.03634
-#     # MASS
-#     m1_src = np.atleast_1d(m1_src)
-#     q = np.atleast_1d(q)
-#     alpha, mmax, mmin, delta_m = refdf['alpha'], refdf['mmax'],\
-#                                  refdf['mmin'], refdf['delta_m']
-#     # power law
-#     power_law_norm = (mmin**(1-alpha) - mmax**(1-alpha))/(alpha-1)
-#     power_law = m1_src**(-alpha) / power_law_norm
-#     power_law *= np.heaviside(m1_src - mmax, 1)*(1 - refdf['lam'])
-#     # Gaussian 
-#     gaussian = ss.norm.pdf(m1_src, refdf['mpp'], refdf['sigpp'])
-#     gaussian *= refdf['lam']
-#     p_m1_src = (power_law + gaussian)*smoothing_s(m1_src, mmin, delta_m)
-# 
-#     # MASS RATIO
-#     p_q = q**refdf['beta'] * smoothing_s(q*m1_src, mmin, delta_m) * (1 + refdf['beta'])
-# 
-#     return p_m1_src * p_q
 

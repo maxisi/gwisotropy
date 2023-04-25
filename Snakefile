@@ -89,6 +89,7 @@ rule contrlratesgetlvk:
 
 rule controlratesvectors:
     input:
+        "src/scripts/utils/pops.py",
         "src/data/pe_gwosc_o3",
         "src/data/control_rates_powerlawpeak_map.txt"
     output:
@@ -100,6 +101,7 @@ rule controlratesvectors:
 
 rule controlratesselection:
     input:
+        "src/scripts/utils/pops.py",
         "src/data/endo3_bbhpop-LIGO-T2100113-v12.hdf5",
         "src/data/control_rates_powerlawpeak_map.txt"
     output:

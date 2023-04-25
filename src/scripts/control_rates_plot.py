@@ -47,17 +47,32 @@ nhats = x.reshape(np.prod(x.shape[:2]), 3)
 x = fit.posterior.vL.values
 jhats = x.reshape(np.prod(x.shape[:2]), 3)
 
+# main result
+fit = az.from_netcdf(paths.result)
+
+x = fit.posterior.vN.values
+nhats_main = x.reshape(np.prod(x.shape[:2]), 3)
+
+x = fit.posterior.vL.values
+jhats_main = x.reshape(np.prod(x.shape[:2]), 3)
+
 ###############################################################################
 # PLOT
 ###############################################################################
 
 ckeys = [r'$v_{N,x}$', r'$v_{N,y}$', r'$v_{N,z}$',
          r'$v_{J,x}$', r'$v_{J,y}$', r'$v_{J,z}$']
-df = pd.DataFrame(np.hstack((nhats, jhats)), columns=ckeys)
+df0 = pd.DataFrame(np.hstack((nhats_main, jhats_main)), columns=ckeys)
+df0['run'] = 'main'
+
+df1 = pd.DataFrame(np.hstack((nhats, jhats)), columns=ckeys)
+df1['run'] = 'control'
+
+df = pd.concat([df0, df1], ignore_index=True)
 
 lkws = dict(ls=':', c='k')
 with sns.axes_style("ticks"):
-    pg = sns.PairGrid(df, corner=True)
+    pg = sns.PairGrid(df, corner=True, hue='run')
     pg.map_diag(sns.kdeplot, fill=True)
     pg.map_lower(sns.kdeplot, fill=True, thresh=0.1)
     for i, axs in enumerate(pg.axes):

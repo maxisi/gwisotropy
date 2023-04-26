@@ -64,6 +64,18 @@ graph TD;
     SMAPS --> s>skymaps.tex];
     make_skymap_figure.py --> s;
     s --> M;
+    X[(10.5281/zenodo.7843926)]-->|control_rates_get_lvk_pop.py|RP(control_rates_powerlawpeak_map.txt):::data;
+    RP --> control_rates_compute_selection.py;
+    control_rates_compute_selection.py --> CS(control_rates_vectors_sel.hdf5):::data;
+    CS --> CF(control_rates_hierarchical_fit.py):::script
+    RP --> control_rates_compute_vectors.py;
+    control_rates_compute_vectors.py --> CD(control_rates_vectors_bbh.pkl):::data;
+    CD --> CF;
+    CF --> CR(control_rates_gwisotropy_result.nc):::data;
+    CR --> control_rates_plot.py;
+    R --> control_rates_plot.py;
+    control_rates_plot.py --> CF2{{contro_rates_jn_corner.pdf}}:::fig;
+    CF2 --> M{manuscript};
 ```
 
 The scripts rely on a small Python package provided in the [`utils`](utils) directory, which contains its own documentation.

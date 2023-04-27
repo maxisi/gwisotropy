@@ -110,7 +110,9 @@ our_wt = utils.pops.rp_wt(df_sel['m1'], df_sel['q'], df_sel['z'],
                           df_sel['cos_tilt_1'], df_sel['cos_tilt_2'],
                           refdf=rpdf)
 
-df_sel['pdrawangle'] = sel_wt_total / our_wt
+pdraw = sel_wt_total / our_wt
+pdraw[~np.isfinite(pdraw)] = np.inf
+df_sel['pdrawangle'] = pdraw
 
 df_sel_raw = df_sel.copy()
 df_sel = df_sel_raw[detected_mask].copy()

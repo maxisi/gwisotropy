@@ -153,7 +153,7 @@ def smoothing_s(m, mmin, delta_m):
     s[mask] = 1./(smoothing_f(m[mask] - mmin, delta_m) + 1)
     return s 
 
-def q_wt_nonorm(m1_src, q, refdef):
+def q_wt_nonorm(m1_src, q, refdf):
     beta, mmin, delta_m = refdf['beta'], refdf['mmin'], refdf['delta_m']
     return q**beta * smoothing_s(q*m1_src, mmin, delta_m)
 
@@ -174,18 +174,17 @@ def rp_mass_wt(m1_src, q, refdf, q_ninterp=500):
     p_m1_src = (power_law + gaussian)*smoothing_s(m1_src, mmin, delta_m)
 
     # MASS RATIO
-    p_q_nonorm = p_wt_nonorm(m1_src, q, refdf)
+    p_q_nonorm = q_wt_nonorm(m1_src, q, refdf)
     # for a grid of m1, evaluate q_wt_nonorm over a grid of 0 < q < 1
     # then trapz it, to get an interpolant of norm as a function of m1
     # q_norm is that interpolant evaluated at the array m1_src
     m1_grid = np.linspace(mmin, mmax, q_ninterp)
     q_grid = np.linspace(0, 1, q_ninterp)
     def compute_q_norm(m1):
-        p_q_grid = p_wt_nonorm(m1, q_grid, refdf)
+        p_q_grid = q_wt_nonorm(m1, q_grid, refdf)
         return np.trapz(p_q_grid, q_grid)
     q_norm_grid = np.vectorize(compute_q_norm)(m1_grid)
-    q_norm_interp = np.inperpolate.interp1d(m1_grid, q_norm_grid)
-    q_norms = q_norm_interp(m1_src)
+    q_norms = np.interp(m1_src, m1_grid, q_norm_grid)
 
     p_q = q**refdf['beta'] * smoothing_s(q*m1_src, mmin, delta_m) / q_norms
 

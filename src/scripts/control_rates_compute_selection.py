@@ -100,11 +100,15 @@ sel_wt_total = sel_wt_orbit*sel_wt_sky * sel_wt_m1q * sel_wt_redshift
 df_sel['a1'] = np.sqrt(df_sel['spin_1x']**2 + df_sel['spin_1y']**2 + df_sel['spin_1z']**2)
 df_sel['a2'] = np.sqrt(df_sel['spin_2x']**2 + df_sel['spin_2y']**2 + df_sel['spin_2z']**2)
 
+df_sel['cos_tilt_1'] = df_sel['spin_1z'] / df_sel['a1']
+df_sel['cos_tilt_2'] = df_sel['spin_2z'] / df_sel['a2']
+
 rpdf = pd.read_csv(paths.rates_ref, sep=' ', header=None,
                    index_col=0).squeeze('columns')
 our_wt = utils.pops.rp_wt(df_sel['m1'], df_sel['q'], df_sel['z'],
                           df_sel['a1'], df_sel['a2'],
-                          df_sel['spin_1z'], df_sel['spin_2z'], refdf=rpdf)
+                          df_sel['cos_tilt_1'], df_sel['cos_tilt_2'],
+                          refdf=rpdf)
 
 df_sel['pdrawangle'] = sel_wt_total / our_wt
 

@@ -114,7 +114,7 @@ Finally, two scripts collate information to make tables and macros for the paper
 The scripts rely on a small Python package provided in the [`utils`](utils) directory, which contains its own documentation.
 
 The utilities are split up over a number of files in `utils/` with the following purposes (key elements in bold):
-- **`infernce.py`**: defines the statistical models used for sampling the hierarchical posterior using [PyMC](http://pymc.io)
+- **`inference.py`**: defines the statistical models used for sampling the hierarchical posterior using [PyMC](http://pymc.io)
 - `plots.py`: contains lightweight plot settings
 - **`pops.py`**: contains utilities for reweighting samples to different populations
 - `prior.py`: containts a single function to draw vectors from our hierarchical prior

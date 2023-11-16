@@ -10,6 +10,8 @@
 \usepackage{xspace}
 \usepackage[caption=false]{subfig}
 \usepackage{stackengine}
+\let\listofchanges\undefined
+\usepackage[commandnameprefix=ifneeded]{changes}
 
 \newcommand{\ts}{\textsuperscript}
 \newcommand{\beq}{\begin{equation}}
@@ -22,12 +24,7 @@
 \newcommand*{\mi}[1]{{\color{magenta} [{\bf MAX}: #1]}}
 \newcommand*{\wf}[1]{\textcolor{cyan}{[\textbf{WILL}: #1]}}
 \newcommand*{\vv}[1]{\textcolor{red}{[\textbf{VIJAY}: #1]}}
-\newcommand*{\suggest}[3]{\textcolor{Purple}{\textbf{#3} \sout{#1} #2}}
-\newcommand*{\comment}[1]{{\color{blue} [{\bf NOTE}: #1]}}
 \newcommand*{\warn}[1]{{\color{red} [{\bf WARNING}: #1]}}
-\newcommand*{\todo}[1]{{\color{red} [{\bf TODO}: #1]}}
-\newcommand*{\red}[1]{{\color{purple} #1}}
-\newcommand*{\blue}[1]{{\color{blue} #1}}
 \newcommand{\cn}{\blue{\bf [cn]}}
 
 \newcommand{\dcc}{LIGO-P2300088}
@@ -92,8 +89,9 @@ would break isotropy. We also allow for inhomogeneities in the
 distribution of black holes over the sky. Making use of dipolar models for
 the spatial distribution and orientation of the sources, we analyze \Nevents signals with false-alarm rates $\leq 1 / \mathrm{yr}$ from
 the third LIGO-Virgo observing run. Accounting for selection biases, we find
-the population of LIGO-Virgo black holes to be fully consistent with both homogeneity and isotropy.
-We additionally find the data to constrain some directions of alignment more than others, and produce posteriors for the directions of total angular momentum of all binaries in our set.
+the population of LIGO-Virgo black holes to be \chdeleted{fully} consistent with both homogeneity and isotropy.
+We additionally find the data to constrain some directions of alignment more than others, \chadded{discuss the interpretation of this measurement} and produce posteriors for the directions of total angular momentum of all binaries in our set.
+\chadded{While our current constraints are weak, the fact that such a small number of detections can already yield a measurement suggests that this will be a powerful tool in the future; we explore this prospect with a number of simulated catalogs of varying size.}
 All code and data are made publicly available in \url{https://github.com/maxisi/gwisotropy/}.
 \end{abstract}
 
@@ -133,7 +131,7 @@ We consider this possibility as we simultaneously search for angular inhomogenei
 
 Unlike previous studies, we look for a breaking of isotropy in the angular momenta through the existence of a special direction in space with reference to some absolute frame, like the cosmic microwave background or far away stars (Fig.~\ref{fig:vectors}, second panel), and not with respect to Earth.
 The discovery of such a special direction could reveal the presence of a vector field breaking Lorentz symmetry.
-This differs from previous works like \citet{Vitale:2022pmu}, which checked for anomalies in the alignment of sources with respect to Earth, as reflected in the distribution of \ac{BBH} inclinations relative to the line of sight (Fig.~\ref{fig:vectors}, third panel).
+This differs from \chreplaced{the previous work in }{previous works like} \citet{Vitale:2022pmu}, which checked for anomalies in the alignment of sources with respect to Earth, as reflected in the distribution of \ac{BBH} inclinations relative to the line of sight (Fig.~\ref{fig:vectors}, third panel), \chadded{or in \citet{Okounkova:2022grv}, which looked for evidence of birefringence in the distribution of detected inclinations.}
 Such studies are not sensitive to the kind of overall alignment in absolute space that we look for here.
 
 
@@ -152,7 +150,8 @@ Appendices show how to obtain posteriors on the angular-momentum direction, disc
 \newcommand*{\dip}[1]{\vec{v}_{#1}}
 \newcommand*{\dipraw}[1]{\vec{u}_{#1}}
 
-In order to study the spatial distribution and orientation of \acp{BBH}, we must analyze the collection of detections under a hierarchical population model that allows for variable degrees of spatial and directional correlations \citep[see, e.g.,][]{Essick:2022slj}.
+In order to study the spatial distribution and orientation of \acp{BBH}, \chadded{we must look for spatial and directional correlations in the sources we have detected}.
+%{we must analyze the collection of detections under a hierarchical population model that allows for variable degrees of spatial and directional correlations \citep[see, e.g.,][]{Essick:2022slj}}
 This requires modeling the distribution of source locations, $\hat{N}$, and total-angular-momentum directions, $\hat{J}$.
 For modeling purposes, the $\hat{N}$ and $\hat{J}$ vectors must be expressed through their Cartesian components in some absolute reference frame.
 
@@ -170,6 +169,10 @@ The Cartesian components of $\hat{J}$ can be computed in the above frame as a fu
 We prefer to work with $\hat{J}$ rather than $\hat{L}$ because the former is conserved over the coalescence to a high degree, even for precessing systems \citep{poisson2014gravity}.
 
 Our goal is to quantify the degree of isotropy in $\hat{N}$ and $\hat{J}$.
+\chadded{As in \cite{Essick:2022slj}, this requires analyzing the collection of detections under a hierarchical population model that allows for variable degrees of correlations: if there are no evident correlations between the sets of observed $\hat{N}$ and $\hat{J}$ vectors, then the data are consistent with isotropy.
+As in any study of the collective properties of a set of sources, we must describe our catalog through a Bayesian hierarchical model with parameters controlling the properties of the distribution of sources from which our observations are drawn \citep{Mandel:2018mve}.
+In our case, this means modeling the distribution of $\hat{N}$ and $\hat{J}$ vectors with parameters that control the degree of correlation structure, and then inferring those parameters from the data.}
+
 To this end, we model each of those vectors as drawn from an isotropic distribution with a dipolar correction of variable magnitude.
 This \emph{ad hoc} modification may be generally seen as the first term in a harmonic expansion around isotropy, and is specifically well suited to capture the existence of a preferred direction in space.
 The dipolar components in the location and orientation distributions are defined by dipole vectors $\dip{N/J}$ whose magnitudes control the degree of deviation from isotropy for $\hat{N}$ and $\hat{J}$ respectively. 
@@ -230,10 +233,19 @@ Isotropy is recovered for $\dip{N} = \dip{J} = 0$ (dotted lines), which is well 
 Since we are attempting to model the \emph{intrinsic} distribution of all \ac{BBH} sources, not merely those that were detected, we must account for the difference in LIGO-Virgo's sensitivity to various sources.
 This is true for both intrinsic parameters, like \ac{BH} masses and spin magnitudes, as well as the location and orientation parameters in which we are interested for this work (namely, $\hat{N}$ and $\hat{J}$).
 With knowledge of the instruments' sensitivity over parameter space, we use the measured selection function to obtain a measurement of the intrinsic distribution of parameters out of the distribution of detected sources \citep{Loredo:2004nn,Mandel:2018mve}.
+\chadded{For population parameters $\Lambda$, the selection function defines a detection efficiency $\xi(\Lambda)$ such that the overall hierarchical likelihood for our set of $N_d$ detections $\{d_i\}$ is}
+\begin{equation}
+  p(\{d_i\} \mid \Lambda ) \propto \xi(\Lambda)^{-N_d} \prod_{i=1}^{N_d}\int p(d_i \mid \theta)\, p(\theta \mid \Lambda) \, \mathrm{d} \theta \, ,
+\end{equation}
+\chadded{where $\theta$ are single-event-level parameters drawn from a population described by $\Lambda$; in our case $\Lambda = \{\dip{N}, \dip{J} \}$, and any additional population parameters modeling other properties like masses and spins where stated.}
 
-Evaluating the detectors' sensitivity over parameter space requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines by injecting and recovering synthetic signals.
+Evaluating the detectors' sensitivity over parameter space\chadded{, $\xi(\Lambda)$,} requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines by injecting and recovering synthetic signals.
 As in \citet{Essick:2022slj}, we take advantage of the \ac{BBH} dataset in \citet{o3-selection} for this purpose.%
 \footnote{Specifically, the \texttt{endo3\_bbhpop-LIGO-T2100113-v12} injection set.}
+\chadded{This dataset records source parameters corresponding to synthetic signals detected by LIGO-Virgo search pipelines, out of a set of simulated astrophysical signals following a fiducial population $p_{\rm draw}(\theta)$; by comparing the distribution of detected versus originally drawn parameters, we can estimate $\xi(\Lambda)$ through a Monte-Carlo integral as \citep{Farr:2019rap,Essick:2022ojx}}
+\begin{equation}
+  \xi(\Lambda) \simeq \sum \frac{1}{N_{\rm draw}} \sum^{N_{\rm rec}}_{j=1} \frac{p(\theta_j \mid \Lambda)}{p_{\rm draw}(\theta_j)}\, .
+\end{equation}
 Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
 \section{Data}
@@ -250,8 +262,8 @@ Since this injection campaign only covered LIGO-Virgo's third observing run, we 
 \subfloat[][prior]{\includegraphics[width=0.325\textwidth]{figures/density_3d_prior.pdf}}
 \caption{\emph{3D distributions.} Three-dimensional representation of the $\dip{J/N}$ measurement in Fig.~\ref{fig:jn_corner} (first two panels), in comparison to the prior (last panel).
 Each point is drawn from the corresponding three-dimensional distribution, with color proportional to the probability density (lighter colors for higher density).
-The origin, representing isotropy, is well favored in all cases (intersection of gray dashed lines).
-The posteriors are tighter with respect to the prior, as is also seen in Fig.~\ref{fig:jn_norm}.
+The origin, representing isotropy, is well supported in all cases (intersection of gray dashed lines).
+\protect\chadded{As reflected in the predominance of dark colors (low density) towards the edges, both posteriors are more tightly concentrated than the prior, indicating that the data are informative; additionally, the $\dip{J}$ distribution is slightly shifted towards the negative-$x$ direction.}
 }
 \label{fig:density_3d}
 \script{density_3d_plot.py}
@@ -261,7 +273,8 @@ The posteriors are tighter with respect to the prior, as is also seen in Fig.~\r
 Our analysis starts from posterior samples for individual events reported by LIGO-Virgo in \citet{LIGOScientific:2021djp,LIGOScientific:2021usb} and publicly released in \citet{zenodo:GWTC-2.1,zenodo:GWTC-3} through the Gravitational Wave Open Science Center \citep{GWOSC:GWTC-2.1,GWOSC:GWTC-3,LIGOScientific:2019lzm}.
 Specifically, we make use of results obtained with the \textsc{IMRPhenomXPHM} waveform \citep{Pratten:2020ceb,Pratten:2020fqn,Garcia-Quiros:2020qpx,Garcia-Quiros:2020qlt} that have been already reweighted to a distance prior uniform in comoving volume.
 The single-event inference was carried out by the LIGO-Virgo collaborations using the \textsc{Bilby} parameter estimation pipeline \citep{Romero-Shaw:2020owr,Ashton:2018jfp}, as detailed in \citet{LIGOScientific:2021djp,LIGOScientific:2021usb}.
-We reweight those samples following the astrophysical population described above \citep[see, e.g.,][for methodology]{Miller:2020zox,Essick:2022ojx} and then use them to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we use as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
+We reweight those samples \chadded{so that they follow an effective prior corresponding to the astrophysical population described in Sec.~\ref{sec:reweight}; this entails taking draws from the set of posterior samples with a weight proportional to the ratio of the desired astrophysical prior to the fiducial prior used by LIGO-Virgo during sampling \citep[see, e.g.,][for details]{Miller:2020zox}}.
+We then use these samples to produce distributions for the components of $\hat{N}$ and $\hat{J}$, which we take as input for our hierarchical analysis based on Eq.~\eqref{eq:lnlike}.
 
 The six-dimensional posteriors for the components of $\hat{J}$ and $\hat{N}$ for each event are the primary input for our hierarchical isotropy analysis.
 We show the posteriors for $\hat{J}$ in Fig.~\ref{fig:skymaps-1} as skymaps for all events in our set, produced using standard LIGO-Virgo tools for representing probability densities over the sky \citep{skymap,Singer:2016eax,Singer:2016erz}; we make these posteriors, resulting from the calculation detailed in Appendix \ref{app:j}, available in our data release \citep{repo}.
@@ -367,7 +380,7 @@ The black contours enclose 90\%, 50\% and 10\% of the marginal probability mass.
 
 We have demonstrated a measurement constraining the potential alignment of the total angular momenta of \acp{BBH} detected by LIGO and Virgo, using \Nevents detections from their third observing run and duly accounting for selection effects.
 In addition to alignment of momenta, we simultaneously looked for inhomogeneities in the distribution of sources over the sky.
-We found no evidence against isotropy in either the orientation or, consistent with previous works, the location of LIGO-Virgo \acp{BBH}.
+\chadded{Although the measurement is only weakly informative,} we found no evidence against isotropy in either the orientation or, consistent with previous works, the location of LIGO-Virgo \acp{BBH}.
 Additionally, we determined that the GWTC-3 data disfavor certain orientations of the potential preferred alignment of angular momenta more than others.
 
 Future measurements will improve as the LIGO, Virgo and KAGRA detectors grow in sensitivity, resulting in many more detections at higher signal-to-noise ratios, which will result in more precise isotropy constraints.

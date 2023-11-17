@@ -237,7 +237,7 @@ With knowledge of the instruments' sensitivity over parameter space, we use the 
 \begin{equation}
   p(\{d_i\} \mid \Lambda ) \propto \xi(\Lambda)^{-N_d} \prod_{i=1}^{N_d}\int p(d_i \mid \theta)\, p(\theta \mid \Lambda) \, \mathrm{d} \theta \, ,
 \end{equation}
-\chadded{where $\theta$ are single-event-level parameters drawn from a population described by $\Lambda$; in our case $\Lambda = \{\dip{N}, \dip{J} \}$, and any additional population parameters modeling other properties like masses and spins where stated.}
+\chadded{where $\theta$ are single-event-level parameters drawn from a population described by $\Lambda$; in our case $\Lambda = \{\dip{N}, \dip{J} \}$.}
 
 Evaluating the detectors' sensitivity over parameter space\chadded{, $\xi(\Lambda)$,} requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines by injecting and recovering synthetic signals.
 As in \citet{Essick:2022slj}, we take advantage of the \ac{BBH} dataset in \citet{o3-selection} for this purpose.%
@@ -505,5 +505,20 @@ The skymaps were produced using the \textsc{ligo.skymap} package \citep{skymap,S
 We make these figures, corresponding \ac{FITS} files, and code used to generate them, available in our data release \citep{repo}.
 
 {\marginicon{} \variable{output/skymaps.tex}}
+
+\section{Reproducibility}
+
+This study was carried out using the reproducibility software
+\href{https://github.com/showyourwork/showyourwork}{\showyourwork}
+\citep{Luger2021}, which leverages continuous integration to
+programmatically download the data from
+\href{https://zenodo.org/}{zenodo.org}, create the figures, and
+compile the manuscript. Each figure caption contains two types of links: one
+to the dataset stored on Zenodo used in the corresponding figure,
+and the other to the script used to make the figure (at the commit
+corresponding to the current build of the manuscript). The git
+repository associated to this study is publicly available at
+\url{https://github.com/maxisi/gwisotropy}. The datasets
+are stored at \url{https://doi.org/10.5281/zenodo.7775266}.
 
 \end{document}

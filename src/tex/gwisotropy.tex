@@ -242,9 +242,9 @@ With knowledge of the instruments' sensitivity over parameter space, we use the 
 Evaluating the detectors' sensitivity over parameter space\chadded{, $\xi(\Lambda)$,} requires large simulation campaigns that quantify the end-to-end performance of LIGO-Virgo detection pipelines by injecting and recovering synthetic signals.
 As in \citet{Essick:2022slj}, we take advantage of the \ac{BBH} dataset in \citet{o3-selection} for this purpose.%
 \footnote{Specifically, the \texttt{endo3\_bbhpop-LIGO-T2100113-v12} injection set.}
-\chadded{This dataset records source parameters corresponding to synthetic signals detected by LIGO-Virgo search pipelines, out of a set of simulated astrophysical signals following a fiducial population $p_{\rm draw}(\theta)$; by comparing the distribution of detected versus originally drawn parameters, we can estimate $\xi(\Lambda)$ through a Monte-Carlo integral as \citep{Farr:2019rap,Essick:2022ojx}}
+\chadded{This dataset records source parameters corresponding to $N_{\rm rec}$ synthetic signals recovered by LIGO-Virgo search pipelines, out of an original set of $N_{\rm draw}$ simulated astrophysical signals following a fiducial population $p_{\rm draw}(\theta)$; by comparing the distribution of detected versus originally drawn parameters, we can estimate $\xi(\Lambda)$ through a Monte-Carlo integral as \citep{Farr:2019rap,Essick:2022ojx}}
 \begin{equation}
-  \xi(\Lambda) \simeq \sum \frac{1}{N_{\rm draw}} \sum^{N_{\rm rec}}_{j=1} \frac{p(\theta_j \mid \Lambda)}{p_{\rm draw}(\theta_j)}\, .
+  \xi(\Lambda) \simeq \frac{1}{N_{\rm draw}} \sum^{N_{\rm rec}}_{j=1} \frac{p(\theta_j \mid \Lambda)}{p_{\rm draw}(\theta_j)}\, .
 \end{equation}
 Since this injection campaign only covered LIGO-Virgo's third observing run, we only consider events detected during that period; together with the mass constraints cited above, this means there are \Nevents \ac{BBH} events to be included in our analysis (listed in Table \ref{tab:events}). 
 
